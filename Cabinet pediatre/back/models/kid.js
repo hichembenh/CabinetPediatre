@@ -6,6 +6,7 @@ const kidSchema=new mongoose.Schema({
     lastName: String,
     age: Date,
     photo: String,
+    gender:String,
     parent:{
         type:mongoose.Schema.Types.ObjectId,
         ref:"user"

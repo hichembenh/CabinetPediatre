@@ -1,7 +1,6 @@
-import React, {useCallback, useEffect, useRef} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import styled from 'styled-components';
 import { MdClose } from 'react-icons/md';
-import {useSpring} from "react-spring";
 import {Paper} from "@material-ui/core";
 
 const ModalWrapper = styled.div`
@@ -56,21 +55,7 @@ const CloseModalButton = styled(MdClose)`
 `;
 
 const RdvModal = ({ kid, showModal, setShowModal }) => {
-    const modalRef = useRef();
     console.log(kid)
-    const animation = useSpring({
-        config: {
-            duration: 250
-        },
-        opacity: showModal ? 1 : 0,
-        transform: showModal ? `translateY(0%)` : `translateY(-100%)`
-    });
-
-    const closeModal = e => {
-        if (modalRef.current === e.target) {
-            setShowModal(false);
-        }
-    };
 
     const keyPress = useCallback(
         e => {

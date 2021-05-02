@@ -1,5 +1,5 @@
 import React from 'react';
-import {Grid, CircularProgress, Paper} from '@material-ui/core';
+import {CircularProgress, Paper} from '@material-ui/core';
 import { useSelector } from 'react-redux';
 
 import Kid from './Post/Kid';

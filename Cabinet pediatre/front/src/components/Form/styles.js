@@ -23,8 +23,18 @@ export default makeStyles((theme) => ({
     marginBottom: 10,
   },
   textField: {
-    marginLeft: theme.spacing(1),
-    marginRight: theme.spacing(1),
+    marginLeft: '50px',
+    marginRight: '0px',
     width: 200,
   },
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+  },
+  selectEmpty: {
+    marginTop: theme.spacing(2),
+  },
+  gender:{
+    marginRight: '50px'
+  }
 }));

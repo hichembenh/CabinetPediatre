@@ -32,10 +32,14 @@ const Kid = ({ kid, setCurrentId }) => {
                 <CardMedia className={classes.media} image={kid.photo || 'https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png'} title={kid.firstName} />
                 <div className={classes.overlay}>
                     <Typography variant="h1">{kid.lastName} {kid.name}</Typography>
-                    <Typography variant="h6">{new Date(kid.age).toLocaleDateString()}</Typography>
+                    <Typography variant="h4">{new Date(kid.age).toLocaleDateString()}</Typography>
+                    <Typography variant="h6">{kid.gender}</Typography>
                 </div>
                 <div className={classes.overlay2}>
-                    <Button style={{ color: 'white' }} size="small" onClick={() => setCurrentId(kid._id)}><MoreHorizIcon fontSize="default" /></Button>
+                    <Button style={{ color: 'white' }} size="small" onClick={() => {
+                        setCurrentId(kid._id)
+                        console.log(new Date(kid.age).getFullYear())
+                    }}><MoreHorizIcon fontSize="default" /></Button>
                 </div>
                 <Typography className={classes.age} gutterBottom variant="h5" component="h2">{kid.title}</Typography>
 

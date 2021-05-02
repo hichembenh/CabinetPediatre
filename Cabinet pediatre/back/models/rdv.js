@@ -4,16 +4,19 @@ const {Schema}=mongoose;
 const rdvSchema=new Schema({
     parent:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:'User',
+        ref:'user',
     },
     kid:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:'Kid'
+        ref:'kids'
     },
     createdAt:{
         type:Date,
         default:new Date()
-    }
+    },
+    dateDebut: Date,
+    dateFin: Date,
+
 })
 
 const Rdv = mongoose.model('rdv',rdvSchema);
