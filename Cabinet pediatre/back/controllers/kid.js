@@ -2,6 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 
 import Kid from '../models/kid.js';
+import User from '../models/user.js'
 
 const router = express.Router();
 
@@ -30,12 +31,16 @@ export const getKid = async (req, res) => {
 
 export const createKid = async (req, res) => {
     const newKid = new Kid(req.body)
+    const {userId}= req.params
 
     try {
         console.log(req.body)
+        const user = User.findById(userId)
+        newKid.parent = user
         await newKid.save();
         console.log('creacted')
         console.log(newKid)
+        user.parent.push()
         res.status(201).json(newKid);
     } catch (error) {
         res.status(409).json({ message: error.message });
@@ -61,6 +66,7 @@ export const updateKid = async (req, res) => {
     }
 }
 
+
 export const deleteKid = async (req, res) => {
     const { id } = req.params;
 
@@ -73,3 +79,5 @@ export const deleteKid = async (req, res) => {
 
 
 export default router;
+
+

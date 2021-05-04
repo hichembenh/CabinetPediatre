@@ -16,3 +16,4 @@ const kidSchema=new mongoose.Schema({
 const Kid = mongoose.model('kids', kidSchema);
 
 export default  Kid;
+
