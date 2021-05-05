@@ -17,6 +17,8 @@ const rdvSchema=new Schema({
     dateDebut: Date,
     dateFin: Date,
 
+},{
+    timestamps:true
 })
 
 const Rdv = mongoose.model('rdv',rdvSchema);

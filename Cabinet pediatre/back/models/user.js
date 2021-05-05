@@ -17,6 +17,8 @@ const userSchema = new Schema({
         ref:'kids',
         required:false
     }]
+},{
+    timestamps:true
 })
 
 export default mongoose.model("user", userSchema);

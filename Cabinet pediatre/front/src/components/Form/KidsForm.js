@@ -39,9 +39,10 @@ const FormKid = ({ currentId, setCurrentId }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (currentId === 0) {
-            dispatch(createKid(kidData));
-            console.log(kidData);
-            console.log(e.target.gender)
+            const userId = localStorage.getItem('userId')
+            dispatch(createKid(userId,kidData));
+            console.log(`user id: ${localStorage.getItem('userId')}`);
+            console.log(kidData)
             clear();
         } else {
             console.log(kidData)
@@ -122,58 +123,3 @@ const FormKid = ({ currentId, setCurrentId }) => {
 };
 
 export default FormKid;
-
-/*<Paper className={classes.paper}>
-    <form autoComplete="off" noValidate className={`${classes.root} ${classes.form}`} onSubmit={handleSubmit}>
-        <Typography variant="h6">{currentId ? `Editing "${kid.firstName}"` : 'Ajouter un enfant'}</Typography>
-        <TextField
-            name="lastName"
-            variant="outlined"
-            label="prenom"
-            fullWidth
-            value={kidData.lastName}
-            onChange={(e) => setKidData({ ...kidData, lastName: e.target.value })} />
-        <TextField
-            name="name"
-            variant="outlined"
-            label="nom"
-            fullWidth
-            value={kidData.name}
-            onChange={(e) => setKidData({ ...kidData, name: e.target.value })} />
-        <Select
-            value={sexe}
-            onChange={handleChangeSexe}
-        >
-            <MenuItem value={1}>Garçon</MenuItem>
-            <MenuItem value={2}>Fillette</MenuItem>
-        </Select>
-        <DatePicker
-            selected={startDate}
-            variant="outlined"
-            label="Date de naissance"
-            value={startDate}
-            fullWidth
-            onChange={onChangeDate}
-            isClearable
-            showYearDropdown
-            scrollableMonthYearDropdown
-        />
-        <div className={classes.fileInput}><FileBase type="file" multiple={false} onDone={({ base64 }) => setKidData({ ...kidData, photo: base64 })} /></div>
-        <Button className={classes.buttonSubmit} variant="contained" color="primary" size="large" type="submit" fullWidth>Submit</Button>
-        <Button variant="contained" color="secondary" size="small" onClick={clear} fullWidth>Clear</Button>
-    </form>
-</Paper>*/
-/*<div>
-    <InputLabel>Date de naissance</InputLabel>
-    <DatePicker
-        selected={startDate}
-        variant="outlined"
-        label="Date de naissance"
-        value={startDate}
-        fullWidth
-        onChange={onChangeDate}
-        isClearable
-        showYearDropdown
-        scrollableMonthYearDropdown
-    />
-</div>*/

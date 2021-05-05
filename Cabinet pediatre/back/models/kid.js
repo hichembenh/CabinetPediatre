@@ -11,6 +11,8 @@ const kidSchema=new mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:"user"
     }
+},{
+    timestamps:true
 })
 
 const Kid = mongoose.model('kids', kidSchema);

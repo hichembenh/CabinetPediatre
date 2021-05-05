@@ -9,6 +9,7 @@ const router = express.Router();
 export const getKids = async (req, res) => {
     try {
         const kid = await Kid.find();
+        console.log('hey')
         res.status(200).json(kid);
     } catch (error) {
         res.status(404).json({ message: error.message });
@@ -31,16 +32,17 @@ export const getKid = async (req, res) => {
 
 export const createKid = async (req, res) => {
     const newKid = new Kid(req.body)
-    const {userId}= req.params
-
+    const userId= req.params.id
+    console.log(req.params.id)
     try {
-        console.log(req.body)
-        const user = User.findById(userId)
+        const user = await User.findById('6091f6cd7c84df232c3d42c2')
         newKid.parent = user
+        console.log(user)
         await newKid.save();
+
+        user.kids.push(newKid);
+        await user.save()
         console.log('creacted')
-        console.log(newKid)
-        user.parent.push()
         res.status(201).json(newKid);
     } catch (error) {
         res.status(409).json({ message: error.message });
@@ -69,6 +71,7 @@ export const updateKid = async (req, res) => {
 
 export const deleteKid = async (req, res) => {
     const { id } = req.params;
+    console.log(id)
 
     if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No kid with id: ${id}`);
 
