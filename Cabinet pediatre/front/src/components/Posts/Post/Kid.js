@@ -6,7 +6,7 @@ import AssignmentIcon from '@material-ui/icons/Assignment';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import { deleteKid } from '../../../actions/kids';
 import useStyles from './styles';
-import RdvModel from '../../RDV/rdvModel'
+import RdvModel from '../../Form/rdvModel'
 import {Button, Card, CardActions, CardMedia, Grid, Typography} from "@material-ui/core";
 
 

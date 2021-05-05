@@ -16,6 +16,14 @@ const rdvSchema=new Schema({
     },
     dateDebut: Date,
     dateFin: Date,
+    urgent: {
+        type: Boolean,
+        default:false
+    },
+    vaccin:{
+        type:Boolean,
+        default:false
+    }
 
 },{
     timestamps:true

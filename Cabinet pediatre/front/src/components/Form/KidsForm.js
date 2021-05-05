@@ -2,19 +2,17 @@ import React, { useState, useEffect } from 'react';
 import {TextField, Button, Typography, InputLabel, Grid} from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import FileBase from 'react-file-base64';
-import DatePicker from "react-datepicker";
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import "react-datepicker/dist/react-datepicker.css";
 import useStyles from './styles';
 import {createKid, updateKid} from "../../actions/kids";
-import moment from "moment";
 
 const FormKid = ({ currentId, setCurrentId }) => {
 
     const kid = useSelector((state) => (currentId ? state.kids.find((message) => message._id === currentId) : null));
     const [kidData, setKidData] =useState(!currentId ?(
-        { name: '', lastName: '', photo:'', age: new Date(), gender:'boy'}
+        { name: '', lastName: '', photo:'', age: new Date(), gender:'boy', userId:localStorage.getItem('userId')}
         ):(kid))
     const dispatch = useDispatch();
     const classes = useStyles();
@@ -29,7 +27,7 @@ const FormKid = ({ currentId, setCurrentId }) => {
 
     const clear = () => {
         setCurrentId(0);
-        setKidData({ name: '', lastName: '', photo: '', age:new Date(), gender:'boy'});
+        setKidData({ name: '', lastName: '', photo: '', age:new Date(), gender:'boy', userId:localStorage.getItem('userId')});
     };
 
     const handleChangeSexe = (event) => {
@@ -39,8 +37,7 @@ const FormKid = ({ currentId, setCurrentId }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (currentId === 0) {
-            const userId = localStorage.getItem('userId')
-            dispatch(createKid(userId,kidData));
+            dispatch(createKid(kidData));
             console.log(`user id: ${localStorage.getItem('userId')}`);
             console.log(kidData)
             clear();
@@ -103,7 +100,7 @@ const FormKid = ({ currentId, setCurrentId }) => {
                 </div>
                     <TextField
                         id="date"
-                        label="Birthday"
+                        label="Date de naissance"
                         type="date"
                         defaultValue={materialDateInput}
                         className={classes.textField}

@@ -15,9 +15,9 @@ export const getKids = () => async (dispatch) => {
     }
 };
 
-export const createKid = (id, kid) => async (dispatch) => {
+export const createKid = (kid) => async (dispatch) => {
     try {
-        const { data } = await api.createKid(id,kid);
+        const { data } = await api.createKid(kid);
         console.log(kid)
         dispatch({ type: CREATE, payload: data });
     } catch (error) {

@@ -9,7 +9,6 @@ const router = express.Router();
 export const getKids = async (req, res) => {
     try {
         const kid = await Kid.find();
-        console.log('hey')
         res.status(200).json(kid);
     } catch (error) {
         res.status(404).json({ message: error.message });
@@ -32,17 +31,18 @@ export const getKid = async (req, res) => {
 
 export const createKid = async (req, res) => {
     const newKid = new Kid(req.body)
-    const userId= req.params.id
-    console.log(req.params.id)
+    const userId= req.body.userId
+    console.log(req.body)
     try {
-        const user = await User.findById('6091f6cd7c84df232c3d42c2')
+        const user = await User.findById(userId)
         newKid.parent = user
-        console.log(user)
         await newKid.save();
 
         user.kids.push(newKid);
         await user.save()
+
         console.log('creacted')
+
         res.status(201).json(newKid);
     } catch (error) {
         res.status(409).json({ message: error.message });
@@ -64,7 +64,7 @@ export const updateKid = async (req, res) => {
         res.json(updatedKid);
     }catch (e){
         console.log(e.message)
-        console.log('error')
+        console.log('updating error')
     }
 }
 
