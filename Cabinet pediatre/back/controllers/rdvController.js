@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 import Rdv from '../models/rdv.js';
 import User from "../models/user.js";
 import Kid from "../models/kid.js";
+import moment from "moment";
 
 const router = express.Router();
 
@@ -39,6 +40,7 @@ export const createRdv = async (req, res) => {
         newRdv.parent = user
         const kid = await Kid.findById(req.body.kidId)
         newRdv.kid = kid
+        newRdv.dateFin  = moment(newRdv.DateDebut).add(30, 'm').toDate();
         await newRdv.save();
         console.log('creacted')
         console.log(newRdv)

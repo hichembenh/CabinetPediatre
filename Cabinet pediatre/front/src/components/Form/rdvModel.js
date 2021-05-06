@@ -9,7 +9,7 @@ const RdvModal = ({ kid, showModal, setShowModal }) => {
     const [newRdv, setNewRdv] = useState({
         userId: localStorage.getItem('userId'),
         kidId: kid._id,
-        DateDebut:new Date(),
+        dateDebut:new Date(),
         vaccin: true,
     })
     const dispatch = useDispatch()
@@ -114,7 +114,7 @@ const RdvModal = ({ kid, showModal, setShowModal }) => {
                                                     InputLabelProps={{
                                                         shrink: true,
                                                     }}
-                                                    onChange={event => {newRdv.DateDebut=new Date(event.target.value)}}
+                                                    onChange={event => {newRdv.dateDebut=new Date(event.target.value)}}
                                                 />
                                                 <div>
                                                     <InputLabel>Vaccin ?</InputLabel>
