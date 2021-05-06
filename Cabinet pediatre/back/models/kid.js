@@ -10,7 +10,12 @@ const kidSchema=new mongoose.Schema({
     parent:{
         type:mongoose.Schema.Types.ObjectId,
         ref:"user"
-    }
+    },
+    rdvs:[{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'rdv',
+        required:false
+    }]
 },{
     timestamps:true
 })

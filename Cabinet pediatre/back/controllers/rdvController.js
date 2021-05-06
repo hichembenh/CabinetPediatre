@@ -2,6 +2,8 @@ import express from 'express';
 import mongoose from 'mongoose';
 
 import Rdv from '../models/rdv.js';
+import User from "../models/user.js";
+import Kid from "../models/kid.js";
 
 const router = express.Router();
 
@@ -32,9 +34,19 @@ export const createRdv = async (req, res) => {
     const newRdv = new Rdv(req.body)
 
     try {
-        console.log(req.body)
+        console.log(req.body.userId)
+        const user = await User.findById(req.body.userId)
+        newRdv.parent = user
+        const kid = await Kid.findById(req.body.kidId)
+        newRdv.kid = kid
         await newRdv.save();
         console.log('creacted')
+        console.log(newRdv)
+        user.rdvs.push(newRdv)
+        await user.save()
+        console.log(newRdv)
+        kid.rdvs.push(newRdv)
+        await kid.save()
         console.log(newRdv)
         res.status(201).json(newRdv);
     } catch (error) {

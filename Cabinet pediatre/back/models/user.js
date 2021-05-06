@@ -16,6 +16,11 @@ const userSchema = new Schema({
         type:Schema.Types.ObjectId,
         ref:'kids',
         required:false
+    }],
+    rdvs:[{
+        type:Schema.Types.ObjectId,
+        ref:'rdv',
+        required:false
     }]
 },{
     timestamps:true
