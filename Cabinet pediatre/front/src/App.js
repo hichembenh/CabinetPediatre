@@ -6,6 +6,7 @@ import Auth from "./components/Auth/Auth";
 import Home from "./components/Pages/Home";
 import Kids from "./components/Pages/Kids";
 import Secretaire from "./components/Pages/Secretaire";
+import Navbar from "./components/Navbar/Navbar";
 
 
 const App = () => {
@@ -13,6 +14,7 @@ const App = () => {
   return (
 
       <Router>
+          <Navbar/>
         <Switch>
           <Route path='/' exact component={Home} />
           <Route path='/sign-up' exact component={Auth}/>

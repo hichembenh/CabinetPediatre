@@ -1,9 +1,12 @@
 import React, {useState} from 'react';
 import makeStyles,{ModalWrapper, ModalImg, ModalContent, CloseModalButton}  from './styles'
-import {Checkbox, Grid, InputLabel, Paper, TextField} from "@material-ui/core";
+import {Checkbox, Grid, InputLabel, Modal, Paper, TextField} from "@material-ui/core";
 import {useDispatch} from "react-redux";
 import {createRdv} from "../../actions/rdv";
-import Box from '@material-ui/core/Box';
+import  {MuiPickersUtilsProvider, DatePicker,TimePicker } from "@material-ui/pickers";
+import DateFnsUtils from '@date-io/date-fns';
+import Calendar from "../Calendar/calendar";
+
 
 const RdvModal = ({ kid, showModal, setShowModal }) => {
     const [newRdv, setNewRdv] = useState({
@@ -16,16 +19,26 @@ const RdvModal = ({ kid, showModal, setShowModal }) => {
     const [selectVaccin,setSelectVaccin] = useState(true)
     const [selectedDate, setSelectedDate] = useState(new Date());
     const classes = makeStyles()
+    const [open, setOpen] = React.useState(false);
+
+    const handleOpen = () => {
+        setOpen(!open);
+    };
+
 
     const handleSubmit = async (e) =>{
         e.preventDefault()
         newRdv.vaccin=selectVaccin
+        newRdv.dateDebut= selectedDate
         dispatch(createRdv(newRdv))
         console.log(newRdv)
     }
     const handleDateChange = (date) => {
         setSelectedDate(date);
     };
+    function disableWeekends(date) {
+        return date.getDay() === 0 || date.getDay() === 6;
+    }
 
     const handleVaccin = () =>{
         setSelectVaccin(!selectVaccin)
@@ -105,17 +118,24 @@ const RdvModal = ({ kid, showModal, setShowModal }) => {
                                                 justify="space-evenly"
                                                 alignItems="center"
                                             >
-                                                <TextField
-                                                    id="datetime-local"
-                                                    label="Date du rendez-vous"
-                                                    type="datetime-local"
-                                                    defaultValue={new Date(Date.now.toString())}
-                                                    className={classes.textField}
-                                                    InputLabelProps={{
-                                                        shrink: true,
-                                                    }}
-                                                    onChange={event => {newRdv.dateDebut=new Date(event.target.value)}}
-                                                />
+                                                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                                    <DatePicker
+                                                        autoOk
+                                                        label="Clearable"
+                                                        clearable
+                                                        disablePast
+                                                        value={selectedDate}
+                                                        onChange={handleDateChange}
+                                                        shouldDisableDate={disableWeekends}
+                                                    />
+                                                    <TimePicker
+                                                        clearable
+                                                        ampm={false}
+                                                        label="24 hours"
+                                                        value={selectedDate}
+                                                        onChange={handleDateChange}
+                                                    />
+                                                </MuiPickersUtilsProvider>
                                                 <div>
                                                     <InputLabel>Vaccin ?</InputLabel>
                                                     <Checkbox
@@ -139,7 +159,15 @@ const RdvModal = ({ kid, showModal, setShowModal }) => {
                                             </Grid>
                                              </Grid>
                                    </form>
-                                         <button onClick={test}>Consulter le calendrier</button>
+                                         <button onClick={handleOpen}>Consulter le calendrier</button>
+                                        <Modal
+                                            open={open}
+                                            onClose={handleOpen}
+                                            aria-labelledby="simple-modal-title"
+                                            aria-describedby="simple-modal-description"
+                                        >
+                                            <Calendar/>
+                                        </Modal>
                                </ModalContent>
                             <CloseModalButton
                                 aria-label='Close modal'

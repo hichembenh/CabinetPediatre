@@ -1,23 +1,29 @@
-import React from 'react'
+import React, {useState} from 'react'
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
+import makeStyles, {getModalStyle} from './style'
 
-export default class DemoApp extends React.Component {
-    render() {
+const Calendar = () => {
+    const [modalStyle] = useState(getModalStyle())
+    const classes = makeStyles()
+
         return (
-            <FullCalendar
-                plugins={[ dayGridPlugin ]}
-                initialView="dayGridMonth"
-                headerToolbar={{
-                    left: 'prev,next today',
-                    center: 'title',
-                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
-                }}
-                editable={true}
-                selectable={true}
-                selectMirror={true}
-                dayMaxEvents={true}
-            />
+            <div style={modalStyle} className={classes.paper}>
+                <FullCalendar
+                    plugins={[ dayGridPlugin ]}
+                    initialView="dayGridMonth"
+                    headerToolbar={{
+                        left: 'prev,next today',
+                        center: 'title',
+                        right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                    }}
+                    editable={true}
+                    selectable={true}
+                    selectMirror={true}
+                    dayMaxEvents={true}
+                />
+            </div>
         )
-    }
 }
+
+export default Calendar

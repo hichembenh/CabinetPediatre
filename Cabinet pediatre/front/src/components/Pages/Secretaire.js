@@ -1,14 +1,12 @@
-import React, {useEffect, useState} from "react";
-import Navbar from "../Navbar/Navbar";
+import React from "react";
 import {ProSidebar, Menu, MenuItem, SubMenu, SidebarHeader, SidebarContent,SidebarFooter} from 'react-pro-sidebar';
 import 'react-pro-sidebar/dist/css/styles.css';
 
 const Secretaire = ()=> {
-    const [user,setUser]= useState(JSON.parse(localStorage.getItem('profile')))
+    const user= JSON.parse(localStorage.getItem('profile'))
 
     return(
         <>
-            <Navbar/>
             <ProSidebar >
                 <SidebarHeader>
                     {'hello '+user.result.firstName}

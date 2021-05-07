@@ -23,7 +23,6 @@ const Kids = () =>{
     }, [currentId, dispatch]);
     return(
         <>
-            <Navbar />
             <SuperNav
             src={'/images/Baby.jpg'}
             label='Mes Enfants'

@@ -8,6 +8,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import useStyles from './styles';
 import {createKid, updateKid} from "../../actions/kids";
 
+
 const FormKid = ({ currentId, setCurrentId }) => {
 
     const kid = useSelector((state) => (currentId ? state.kids.find((message) => message._id === currentId) : null));
