@@ -1,7 +1,7 @@
-import { FETCH_ALL,
-    CREATE,
-    UPDATE,
-    DELETE
+import { FETCH_KID,
+    CREATE_KID,
+    UPDATE_KID,
+    DELETE_KID
 } from '../constants/actionTypes';
 import * as api from '../api/index.js';
 
@@ -9,7 +9,7 @@ export const getKids = () => async (dispatch) => {
     try {
         const { data } = await api.fetchKid();
 
-        dispatch({ type: FETCH_ALL, payload: data });
+        dispatch({ type: FETCH_KID, payload: data });
     } catch (error) {
         console.log(error.message);
     }
@@ -19,7 +19,7 @@ export const createKid = (kid) => async (dispatch) => {
     try {
         const { data } = await api.createKid(kid);
         console.log(kid)
-        dispatch({ type: CREATE, payload: data });
+        dispatch({ type: CREATE_KID, payload: data });
     } catch (error) {
         console.log(error.message);
     }
@@ -29,7 +29,7 @@ export const updateKid = (id, kid) => async (dispatch) => {
     try {
         const { data } = await api.updateKid(id, kid);
 
-        dispatch({ type: UPDATE, payload: data });
+        dispatch({ type: UPDATE_KID, payload: data });
     } catch (error) {
         console.log(error.message);
     }
@@ -40,7 +40,7 @@ export const deleteKid = (id) => async (dispatch) => {
         await api.deleteKid(id);
         console.log('deleted')
 
-        dispatch({ type: DELETE, payload: id });
+        dispatch({ type: DELETE_KID, payload: id });
     } catch (error) {
         console.log(error.message);
     }

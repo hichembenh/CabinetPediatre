@@ -12,6 +12,7 @@ export const getRdvs = async (req, res) => {
     try {
         const rdv = await Rdv.find();
         res.status(200).json(rdv);
+        console.log(rdv)
     } catch (error) {
         res.status(404).json({ message: error.message });
         console.log('fetching error')

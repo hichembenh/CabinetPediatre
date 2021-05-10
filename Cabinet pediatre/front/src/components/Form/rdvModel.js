@@ -1,15 +1,15 @@
 import React, {useState} from 'react';
-import makeStyles,{ModalWrapper, ModalImg, ModalContent, CloseModalButton}  from './styles'
+import {ModalWrapper, ModalImg, ModalContent, CloseModalButton}  from './styles'
 import {Checkbox, Grid, InputLabel, Modal, Paper, TextField} from "@material-ui/core";
 import {useDispatch} from "react-redux";
 import {createRdv} from "../../actions/rdv";
-import  {MuiPickersUtilsProvider, DatePicker,TimePicker } from "@material-ui/pickers";
+import {MuiPickersUtilsProvider, DatePicker,TimePicker } from "@material-ui/pickers";
 import DateFnsUtils from '@date-io/date-fns';
 import Calendar from "../Calendar/calendar";
-
+import moment from "moment";
 
 const RdvModal = ({ kid, showModal, setShowModal }) => {
-    const [newRdv, setNewRdv] = useState({
+    const [newRdv] = useState({
         userId: localStorage.getItem('userId'),
         kidId: kid._id,
         dateDebut:new Date(),
@@ -17,14 +17,17 @@ const RdvModal = ({ kid, showModal, setShowModal }) => {
     })
     const dispatch = useDispatch()
     const [selectVaccin,setSelectVaccin] = useState(true)
-    const [selectedDate, setSelectedDate] = useState(new Date());
-    const classes = makeStyles()
+    const [selectedDate, setSelectedDate] = useState(new Date(moment().hours(8).minutes(0)));
     const [open, setOpen] = React.useState(false);
+    const calendar = (
+        <div>
+            <Calendar/>
+        </div>
+    )
 
     const handleOpen = () => {
         setOpen(!open);
     };
-
 
     const handleSubmit = async (e) =>{
         e.preventDefault()
@@ -44,9 +47,6 @@ const RdvModal = ({ kid, showModal, setShowModal }) => {
         setSelectVaccin(!selectVaccin)
     }
 
-    const test = () =>{
-        console.log('test')
-    }
     return (
         <>
             {showModal ? (
@@ -121,7 +121,7 @@ const RdvModal = ({ kid, showModal, setShowModal }) => {
                                                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                                                     <DatePicker
                                                         autoOk
-                                                        label="Clearable"
+                                                        label="Date du rendez-vous"
                                                         clearable
                                                         disablePast
                                                         value={selectedDate}
@@ -129,12 +129,15 @@ const RdvModal = ({ kid, showModal, setShowModal }) => {
                                                         shouldDisableDate={disableWeekends}
                                                     />
                                                     <TimePicker
-                                                        clearable
-                                                        ampm={false}
-                                                        label="24 hours"
-                                                        value={selectedDate}
-                                                        onChange={handleDateChange}
-                                                    />
+                                                    clearable
+                                                    minutesStep={30}
+                                                    label="Heure du rendez-vous"
+                                                    minDate={Date(moment().hours(''))}
+                                                    maxDate={Date(moment().hours(''))}
+                                                    value={selectedDate}
+                                                    minDateMessage
+                                                    onChange={handleDateChange}
+                                                />
                                                 </MuiPickersUtilsProvider>
                                                 <div>
                                                     <InputLabel>Vaccin ?</InputLabel>
@@ -166,7 +169,7 @@ const RdvModal = ({ kid, showModal, setShowModal }) => {
                                             aria-labelledby="simple-modal-title"
                                             aria-describedby="simple-modal-description"
                                         >
-                                            <Calendar/>
+                                            {calendar}
                                         </Modal>
                                </ModalContent>
                             <CloseModalButton

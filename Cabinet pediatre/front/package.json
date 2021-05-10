@@ -8,6 +8,7 @@
     "@date-io/date-fns": "^1.3.13",
     "@fullcalendar/daygrid": "^5.6.0",
     "@fullcalendar/react": "^5.6.0",
+    "@fullcalendar/timegrid": "^5.6.0",
     "@material-ui/core": "^4.9.10",
     "@material-ui/icons": "^4.9.1",
     "@material-ui/pickers": "^3.3.10",

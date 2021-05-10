@@ -8,6 +8,8 @@ const userSchema = new Schema({
     numTel: {type:Number, required: true},
     email: {type:String, required:  true},
     password: {type:String, required:   true},
+    isSec:{type:Boolean,default:false},
+    isAdmin:{type:Boolean,default:false},
     createdAt:{
         type:Date,
         default:new Date()
