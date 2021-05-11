@@ -9,7 +9,6 @@ const router = express.Router();
 export const getKids = async (req, res) => {
     try {
         const kid = await Kid.find();
-        console.log('hey')
         res.status(200).json(kid);
     } catch (error) {
         res.status(404).json({ message: error.message });

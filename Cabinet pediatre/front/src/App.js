@@ -10,7 +10,7 @@ import Navbar from "./components/Navbar/Navbar";
 
 
 const App = () => {
-
+    const user = JSON.parse(localStorage.getItem('profile'))
   return (
 
       <Router>

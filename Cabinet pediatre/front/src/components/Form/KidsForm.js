@@ -7,6 +7,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import "react-datepicker/dist/react-datepicker.css";
 import useStyles from './styles';
 import {createKid, updateKid} from "../../actions/kids";
+import AlertNotification from "../Confirm/alert";
 
 
 const FormKid = ({ currentId, setCurrentId }) => {
@@ -15,6 +16,11 @@ const FormKid = ({ currentId, setCurrentId }) => {
     const [kidData, setKidData] =useState(!currentId ?(
         { name: '', lastName: '', photo:'', age: new Date(), gender:'boy', userId:localStorage.getItem('userId')}
         ):(kid))
+    const [notify,setNotify]= useState({
+        isOpen:false,
+        message:'',
+        type:''
+    })
     const dispatch = useDispatch();
     const classes = useStyles();
     const [sexe, setSexe] = useState(currentId?(kidData.gender):('boy'));
@@ -39,12 +45,20 @@ const FormKid = ({ currentId, setCurrentId }) => {
         e.preventDefault();
         if (currentId === 0) {
             dispatch(createKid(kidData));
-            console.log(`user id: ${localStorage.getItem('userId')}`);
-            console.log(kidData)
+            setNotify({
+                isOpen: true,
+                message: 'Enfant créé',
+                type: 'success'
+            })
             clear();
         } else {
             console.log(kidData)
             dispatch(updateKid(currentId, kidData));
+            setNotify({
+                isOpen: true,
+                message: `${kidData.lastName} modifié`,
+                type: 'success'
+            })
             clear();
         }
     };
@@ -116,6 +130,10 @@ const FormKid = ({ currentId, setCurrentId }) => {
                 <Button className={classes.buttonSubmit} variant="contained" color="primary" size="large" type="submit" fullWidth>Submit</Button>
                 <Button variant="contained" color="secondary" size="small" onClick={clear} fullWidth>Clear</Button>
         </form>
+        <AlertNotification
+            notify={notify}
+            setNotify={setNotify}
+        />
     </div>
     );
 };

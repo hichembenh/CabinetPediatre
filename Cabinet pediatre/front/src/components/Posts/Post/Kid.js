@@ -8,15 +8,37 @@ import { deleteKid } from '../../../actions/kids';
 import useStyles from './styles';
 import RdvModel from '../../Form/rdvModel'
 import {Button, Card, CardActions, CardMedia, Grid, Typography} from "@material-ui/core";
+import AlertNotification from "../../Confirm/alert";
+import ConfirmDialog from "../../Confirm/confirmDialog";
 
 
 const Kid = ({ kid, setCurrentId }) => {
     const dispatch = useDispatch();
     const classes = useStyles();
     const [rdvModeltest,setRdvModeltest]=useState(false)
+    const [notify, setNotify] = useState({
+        isOpen:false,
+        message:'',
+        type:''
+    })
+    const [confirmDialog,setConfirmDialog] = useState({
+        isOpen:false,
+        title:'',
+        subTitle:''
+    })
 
     const showRdvModel = () =>{
         setRdvModeltest(!rdvModeltest)
+    }
+    const handleDelete = () =>{
+        if (window.confirm('Vous voulez vraiment supprimer ?')) {
+            dispatch(deleteKid(kid._id))
+            setNotify({
+                isOpen: true,
+                message: 'Enfant supprimé',
+                type: 'success'
+            })
+        }
     }
 
     return (
@@ -52,12 +74,17 @@ const Kid = ({ kid, setCurrentId }) => {
                         justify="space-between"
                         alignItems="center"
                     >
-                        <Button size="small" color="primary" onClick={() => dispatch(deleteKid(kid._id))}><DeleteIcon fontSize="small" /> Supprimer</Button>
+                        <Button size="small" color="primary" onClick={handleDelete}><DeleteIcon fontSize="small" /> Supprimer</Button>
                         <Button size="small" color="primary"><AssignmentIcon fontSize="small"/> Fiche patient</Button>
                         <Button size="large" color="primary" onClick={showRdvModel}><AddBoxIcon fontSize="small"/> Demander un rendez-vous</Button>
                     </Grid>
                 </CardActions>
             </Card>
+            <AlertNotification
+                notify={notify}
+                setNotify={setNotify}
+            />
+
         </>
     );
 };

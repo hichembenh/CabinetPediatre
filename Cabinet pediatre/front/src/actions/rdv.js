@@ -2,7 +2,6 @@ import {FETCH_RDV, DELETE_RDV, UPDATE_RDV, CREATE_RDV} from "../constants/action
 import * as api from '../api/index.js';
 
 export const getRdvs = () => async (dispatch) => {
-    console.log('hey')
     try {
         const { data } = await api.fetchRdv();
 

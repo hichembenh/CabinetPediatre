@@ -6,8 +6,6 @@ import {
     Button,
     CssBaseline,
     TextField,
-    FormControlLabel,
-    Checkbox,
     Link,
     Paper,
     Box,
@@ -19,35 +17,30 @@ import Icon from './icon';
 import {useDispatch} from "react-redux";
 import {useHistory}from "react-router-dom";
 import {signup,signin} from '../../actions/auth'
+import validateInfo from "../Form/validateInfo";
 
 const initialState={firstName:'', lastName:'',numTel:'',email:'',password:'',confirmPassword:''};
 const Login= () => {
 
     const [isSignUp,setIsSignUp]=useState(false);
-    const classes = useStyles();
     const [form, setForm] = useState(initialState);
+    const [errors,setErrors] = useState({})
+    const [submitting, setSubmitting] = useState(false)
+    const classes = useStyles();
     const disp = useDispatch();
     const history = useHistory();
 
     const handleChange = (e) =>{
         setForm({...form,[e.target.name]:e.target.value});
-        if (form.email.length<=4){
-
-        }
     }
     const handleSubmit = (e) =>{
         e.preventDefault();
-        if (form.email.length<=4){
-            alert("email incorrect")
-        }else {
             if (isSignUp){
-
+                setErrors(validateInfo(form))
                 disp(signup(form,history))
             }else{
                 disp(signin(form,history))
             }
-        }
-
     }
     const switchMode = () =>{
         setIsSignUp((prevIsSignUp)=>!prevIsSignUp)
@@ -84,15 +77,13 @@ const Login= () => {
                             margin="normal"
                             required
                             fullWidth
-                            label="Email Address"
+                            label="Adresse email"
                             name="email"
                             autoComplete="email"
                             autoFocus
                             onChange={handleChange}
-                            validators={['required', 'isEmail']}
-                            errorMessages={['this field is required', 'email is not valid']}
-
                         />
+                        {errors.email && <p style={{ color: 'red' }}>{errors.email}</p>}
                         {isSignUp && (
                             <>
                                 <TextField
@@ -100,34 +91,37 @@ const Login= () => {
                                     margin="normal"
                                     required
                                     fullWidth
-                                    label="First Name"
+                                    label="Prenom"
                                     name="firstName"
                                     autoComplete="firstName"
                                     autoFocus
                                     onChange={handleChange}
                                 />
+                                {errors.firstName && <p style={{ color: 'red' }}>{errors.firstName}</p>}
                                 <TextField
                                     variant="outlined"
                                     margin="normal"
                                     required
                                     fullWidth
-                                    label="Last name"
+                                    label="Nom de famille"
                                     name="lastName"
                                     autoComplete="lastName"
                                     autoFocus
                                     onChange={handleChange}
                                 />
+                                {errors.lastName && <p style={{ color: 'red' }}>{errors.lastName}</p>}
                                 <TextField
                                     variant="outlined"
                                     margin="normal"
                                     required
                                     fullWidth
-                                    label="Num telephone"
+                                    label="Numero telephone"
                                     name="numTel"
                                     autoComplete="numTel"
                                     autoFocus
                                     onChange={handleChange}
                                 />
+                                {errors.numTel && <p style={{ color: 'red' }}>{errors.numTel}</p>}
                             </>
                         )}
                         <TextField
@@ -136,28 +130,28 @@ const Login= () => {
                             required
                             fullWidth
                             name="password"
-                            label="Password"
+                            label="Mot de passe"
                             type="password"
                             autoComplete="current-password"
                             onChange={handleChange}
                         />
+                        {errors.password && <p  style={{ color: 'red' }}>{errors.password}</p>}
                         {isSignUp && (
+                            <>
                             <TextField
                                 variant="outlined"
                                 margin="normal"
                                 required
                                 fullWidth
                                 name="confirmPassword"
-                                label="Confirm password"
+                                label="Confirmer le mot de passe"
                                 type="password"
                                 autoComplete="current-password"
                                 onChange={handleChange}
                             />
-                        )}
-                        <FormControlLabel
-                            control={<Checkbox value="remember" color="primary" />}
-                            label="Remember me"
-                        />
+                            {errors.confirmPassword && <p style={{ color: 'red' }}>{errors.confirmPassword}</p>}
+                            </>
+                            )}
                         <Button
                             type="submit"
                             fullWidth
@@ -165,7 +159,7 @@ const Login= () => {
                             color="primary"
                             className={classes.submit}
                         >
-                            {isSignUp? ('Sign up'):('Sign in')}
+                            {!isSignUp? ("S'identifier"):('Créer un compte')}
                         </Button>
                         <GoogleLogin
                             clientId={"790897231344-t3gdj672gnr7sk6n1eftal9fvgf9u1r2.apps.googleusercontent.com"}
@@ -183,14 +177,14 @@ const Login= () => {
                         <Grid container>
                             {!isSignUp && (<Grid item xs>
                                     <Link href="#" variant="body2">
-                                        Forgot password?
+                                        Mot de passe oublié ?
                                     </Link>
                                 </Grid>
                             )}
 
                             <Grid item>
                                 <Link onClick={switchMode} variant="body2">
-                                    {isSignUp ? ("Already have an account? Sing In"):("Don't have an account? Sign Up")}
+                                    {isSignUp ? ("Vous avez deja un compte ? s'identifier"):("Vous n'avez pas de compte ? Créer un compte")}
                                 </Link>
                             </Grid>
                         </Grid>

@@ -2,7 +2,6 @@ import React from 'react';
 import '../../App.css';
 import { Button } from './Button';
 import './SuperNav.css';
-import Navbar from "./Navbar";
 
 // fonctions composants
 function SuperNav(props) {
@@ -11,7 +10,7 @@ function SuperNav(props) {
 
             <div className='hero-container'>
                 <h1>{props.label}</h1>
-                <p>What are you waiting for?</p>
+                <p>Vous attendez quoi?</p>
                 <div className='hero-btns'>
                     <Button
                         className='btn'

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {CircularProgress, Paper} from '@material-ui/core';
 import { useSelector } from 'react-redux';
 
@@ -6,18 +6,43 @@ import Kid from './Post/Kid';
 import useStyles from './styles';
 
 const Kids = ({ setCurrentId }) => {
+    const [search,setSearch] = useState('')
     const kids = useSelector((state) => state.kids);
     const classes = useStyles();
 
     return (
         !kids.length ? <CircularProgress /> : (
-            <Paper className={classes.container} spacing={3}>
-                {kids.map((kid) => (
-                    <Paper key={kid._id} xs={12} sm={6} md={6} spacing={3}>
+            <>
+                <div>
+                    <label htmlFor="search" className='form-label'>
+                        <input
+                            id="search"
+                            type="text"
+                            placeholder="Chercher par nom"
+                            onChange={(event)=>{
+                                setSearch(event.target.value)
+                            }}
+                            className={classes.input}
+                        />
+
+                    </label>
+                </div>
+            <Paper className={classes.container} elevation={0} spacing={3}>
+                {kids.filter((val)=>{
+                        if(search === ""){
+                            return val
+                        }else if(val.name.toLowerCase().includes(search.toLowerCase())){
+                            return val
+                        }
+                    }).map((kid) => (
+                    <>
+                    <Paper key={kid._id} spacing={3}>
                         <Kid kid={kid} setCurrentId={setCurrentId} />
                     </Paper>
-                ))}
+                    </>
+                    ))}
             </Paper>
+            </>
         )
     );
 };

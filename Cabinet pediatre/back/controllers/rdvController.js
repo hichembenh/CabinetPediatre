@@ -36,24 +36,22 @@ export const createRdv = async (req, res) => {
     const newRdv = new Rdv(req.body)
 
     try {
-        console.log(req.body.userId)
         const user = await User.findById(req.body.userId)
         newRdv.parent = user
         const kid = await Kid.findById(req.body.kidId)
         newRdv.kid = kid
-        newRdv.dateFin  = moment(newRdv.DateDebut).add(30, 'm').toDate();
+        newRdv.dateDebut.setSeconds(0)
+        newRdv.dateFin  = moment(newRdv.dateDebut).add(30, 'm').toDate();
         await newRdv.save();
-        console.log('creacted')
-        console.log(newRdv)
         user.rdvs.push(newRdv)
         await user.save()
-        console.log(newRdv)
         kid.rdvs.push(newRdv)
         await kid.save()
-        console.log(newRdv)
         res.status(201).json(newRdv);
+        console.log('creacted')
     } catch (error) {
         res.status(409).json({ message: error.message });
+        console.log(error.message)
         console.log('creating error')
     }
 }

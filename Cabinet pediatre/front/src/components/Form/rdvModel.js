@@ -1,12 +1,14 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {ModalWrapper, ModalImg, ModalContent, CloseModalButton}  from './styles'
 import {Checkbox, Grid, InputLabel, Modal, Paper, TextField} from "@material-ui/core";
-import {useDispatch} from "react-redux";
-import {createRdv} from "../../actions/rdv";
+import {useDispatch, useSelector} from "react-redux";
+import {createRdv, getRdvs} from "../../actions/rdv";
 import {MuiPickersUtilsProvider, DatePicker,TimePicker } from "@material-ui/pickers";
 import DateFnsUtils from '@date-io/date-fns';
 import Calendar from "../Calendar/calendar";
 import moment from "moment";
+import {useGoogleLogin} from "react-google-login";
+import AlertNotification from "../Confirm/alert";
 
 const RdvModal = ({ kid, showModal, setShowModal }) => {
     const [newRdv] = useState({
@@ -15,10 +17,20 @@ const RdvModal = ({ kid, showModal, setShowModal }) => {
         dateDebut:new Date(),
         vaccin: true,
     })
+    const rdvs = useSelector((state) => state.rdv)
     const dispatch = useDispatch()
+    useEffect(() => {
+        dispatch(getRdvs());
+    }, [dispatch]);
+    const [notify,setNotify]= useState({
+        isOpen:false,
+        message:'',
+        type:''
+    })
     const [selectVaccin,setSelectVaccin] = useState(true)
     const [selectedDate, setSelectedDate] = useState(new Date(moment().hours(8).minutes(0)));
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
+    const [validDate,setValidDate] = useState(false);
     const calendar = (
         <div>
             <Calendar/>
@@ -33,10 +45,30 @@ const RdvModal = ({ kid, showModal, setShowModal }) => {
         e.preventDefault()
         newRdv.vaccin=selectVaccin
         newRdv.dateDebut= selectedDate
+        console.log(newRdv.dateDebut)
         dispatch(createRdv(newRdv))
-        console.log(newRdv)
+        setNotify({
+            isOpen: true,
+            message: 'Rendez-vous ajouté',
+            type: 'success'
+        })
     }
-    const handleDateChange = (date) => {
+    function isBooked () {
+        var check = false
+        rdvs.forEach((rdv)=>{
+            if (
+                selectedDate.getYear() === moment(rdv.dateDebut).year() &&
+                selectedDate.getMonth() === moment(rdv.dateDebut).month() &&
+                selectedDate.getDay() === moment(rdv.dateDebut).day() &&
+                selectedDate.getHours() === moment(rdv.dateDebut).hour() &&
+                selectedDate.getMinutes() === moment(rdv.dateDebut).minutes()
+            ) {
+                check = true;
+            }
+            })
+        return check
+    }
+    const handleDateChange = (date) =>{
         setSelectedDate(date);
     };
     function disableWeekends(date) {
@@ -50,6 +82,7 @@ const RdvModal = ({ kid, showModal, setShowModal }) => {
     return (
         <>
             {showModal ? (
+                <>
                 <Paper>
                         <ModalWrapper showModal={showModal}>
                             <ModalImg src={kid.photo} alt='camera' />
@@ -132,13 +165,11 @@ const RdvModal = ({ kid, showModal, setShowModal }) => {
                                                     clearable
                                                     minutesStep={30}
                                                     label="Heure du rendez-vous"
-                                                    minDate={Date(moment().hours(''))}
-                                                    maxDate={Date(moment().hours(''))}
                                                     value={selectedDate}
-                                                    minDateMessage
                                                     onChange={handleDateChange}
                                                 />
                                                 </MuiPickersUtilsProvider>
+                                                {validDate ? (<div>date reservé</div>):null}
                                                 <div>
                                                     <InputLabel>Vaccin ?</InputLabel>
                                                     <Checkbox
@@ -178,6 +209,11 @@ const RdvModal = ({ kid, showModal, setShowModal }) => {
                             />
                         </ModalWrapper>
                 </Paper>
+                <AlertNotification
+                    notify={notify}
+                    setNotify={setNotify}
+                />
+                </>
             ) : null}
         </>
     );

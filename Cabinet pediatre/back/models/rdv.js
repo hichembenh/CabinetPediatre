@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 
+mongoose.set('useCreateIndex', true);
 const {Schema}=mongoose;
 const rdvSchema=new Schema({
     parent:{
@@ -10,11 +11,11 @@ const rdvSchema=new Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:'kids'
     },
-    createdAt:{
+    dateDebut: {
         type:Date,
-        default:new Date()
+        unique:true,
+
     },
-    dateDebut: Date,
     dateFin: Date,
     urgent: {
         type: Boolean,
