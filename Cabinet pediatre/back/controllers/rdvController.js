@@ -19,6 +19,17 @@ export const getRdvs = async (req, res) => {
     }
 }
 
+export const getMyRdv = async (req,res) =>{
+    const userId = req.params.id
+    try {
+        const user = User.findById(userId)
+        console.log(user)
+    }catch (error){
+        console.log(error.message)
+        console.log('getting my rdv fail')
+    }
+}
+
 export const getRdv = async (req, res) => {
     const { id } = req.params;
 

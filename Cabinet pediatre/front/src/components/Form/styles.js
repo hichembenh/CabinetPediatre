@@ -18,6 +18,7 @@ export default makeStyles((theme) => ({
     display: 'flex',
     flexWrap: 'wrap',
     justifyContent: 'center',
+    marginTop:'10px'
   },
   fileInput: {
     width: '97%',
@@ -40,6 +41,9 @@ export default makeStyles((theme) => ({
   },
   gender:{
     marginRight: '50px'
+  },
+  table:{
+    marginTop:'10px'
   }
 }));
 export const ModalWrapper = styled.div`

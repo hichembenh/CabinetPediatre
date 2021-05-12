@@ -22,3 +22,14 @@ export const createRdv = (rdv) => async (dispatch)=>{
         console.log('create error')
     }
 }
+
+export const getMyRdvs = (id) => async (dispatch)=>{
+    try{
+        const {data} = await api.fetchMyRdvs(id)
+        dispatch({ type: FETCH_RDV, payload: data });
+    }catch (error){
+        console.log(error.message)
+        console.log('fetching my rdv fail')
+    }
+
+}

@@ -82,7 +82,7 @@ const FormKid = ({ currentId, setCurrentId }) => {
 
     <div>
         <form autoComplete="off" noValidate className={`${classes.root} ${classes.form}`} onSubmit={handleSubmit}>
-                <Typography variant="h6">{currentId ? `Editing "${kid.lastName}"` : null}</Typography>
+                <Typography variant="h6">{currentId ? `Modifier "${kid.lastName}"` : null}</Typography>
                 <TextField
                     name="lastName"
                     variant="outlined"
@@ -127,8 +127,8 @@ const FormKid = ({ currentId, setCurrentId }) => {
 
             </Grid>
                 <div className={classes.fileInput}><FileBase type="file" multiple={false} onDone={({ base64 }) => setKidData({ ...kidData, photo: base64 })} /></div>
-                <Button className={classes.buttonSubmit} variant="contained" color="primary" size="large" type="submit" fullWidth>Submit</Button>
-                <Button variant="contained" color="secondary" size="small" onClick={clear} fullWidth>Clear</Button>
+                <Button className={classes.buttonSubmit} variant="contained" color="primary" size="large" type="submit" fullWidth>Valider</Button>
+                <Button variant="contained" color="secondary" size="small" onClick={clear} fullWidth>Effacer</Button>
         </form>
         <AlertNotification
             notify={notify}

@@ -1,4 +1,4 @@
-import { AUTH } from '../constants/actionTypes';
+import {AUTH, UPDATE_USER} from '../constants/actionTypes';
 import * as api from '../api/index.js';
 
 export const signin = (formData, router) => async (dispatch) => {
@@ -25,3 +25,16 @@ export const signup = (formData, router) => async (dispatch) => {
         console.log(error);
     }
 };
+
+export const updateUser = (id,formData)=> async (dispatch)=>{
+    try{
+
+        const { data } = await api.updateUser(id,formData)
+        localStorage.setItem("profile", JSON.stringify(data));
+        dispatch({ type: UPDATE_USER, data });
+
+
+    }catch (error){
+        console.log(error.message)
+    }
+}

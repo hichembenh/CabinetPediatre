@@ -3,6 +3,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
 import UserModal from "../models/user.js";
+import mongoose from "mongoose";
 
 const secret = 'test';
 const app = express();
@@ -35,12 +36,6 @@ export const signup = async (req, res) => {
         const oldUser = await UserModal.findOne({ email });
 
         if (oldUser) return res.status(400).json({ message: "User already exists" });
-        if(password!==confirmPassword) {
-            req.flash('mdp')
-            return popup.alert({
-            content: 'Hello!'
-        });
-        }
 
         const hashedPassword = await bcrypt.hash(password, 12);
 
@@ -55,3 +50,22 @@ export const signup = async (req, res) => {
         console.log(error.message);
     }
 };
+
+export const updateUser = async (req, res) => {
+    const { id } = req.params;
+    const { firstName, lastName, numTel, email, password} = req.body;
+    const hashedPassword = await bcrypt.hash(password, 12);
+
+    if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No user with id: ${id}`);
+
+    const updatedUser = {firstName, lastName, numTel, email, password:hashedPassword, _id:id}
+    console.log(updatedUser)
+    try {
+        await UserModal.findByIdAndUpdate(id, updatedUser, { new: true });
+
+        res.json(updatedUser);
+    }catch (e){
+        console.log(e.message)
+        console.log('updating error')
+    }
+}

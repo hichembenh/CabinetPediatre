@@ -22,7 +22,7 @@ export default function validateInfo(values) {
     if (!values.password) {
         errors.password = 'Champ obligatoire';
     } else if (values.password.length < 6) {
-        errors.password = 'Mot de passe doit avoir au moins 6 caracteres';
+        errors.password = 'Mot de passe ou email invalide';
     }
 
     if (!values.confirmPassword) {

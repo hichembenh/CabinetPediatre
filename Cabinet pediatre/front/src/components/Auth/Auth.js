@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import {
     Typography,
@@ -26,8 +26,9 @@ const Login= () => {
     const [form, setForm] = useState(initialState);
     const [errors,setErrors] = useState({})
     const [submitting, setSubmitting] = useState(false)
+    const [validate,setValidate]= useState(false)
     const classes = useStyles();
-    const disp = useDispatch();
+    const dispatch = useDispatch();
     const history = useHistory();
 
     const handleChange = (e) =>{
@@ -37,11 +38,19 @@ const Login= () => {
         e.preventDefault();
             if (isSignUp){
                 setErrors(validateInfo(form))
-                disp(signup(form,history))
+                dispatch(signup(form,history))
             }else{
-                disp(signin(form,history))
+                dispatch(signin(form,history))
             }
     }
+    useEffect(
+        () => {
+            if (Object.keys(errors).length === 0 && submitting) {
+                setValidate(true);
+            }
+        },
+        [errors]
+    );
     const switchMode = () =>{
         setIsSignUp((prevIsSignUp)=>!prevIsSignUp)
     }
@@ -50,7 +59,7 @@ const Login= () => {
         const token = res?.tokenId;
 
         try{
-            disp({type: 'AUTH', data:{result,token}})
+            dispatch({type: 'AUTH', data:{result,token}})
             history.push('./')
         }catch (error){
             console.log(error);
@@ -69,7 +78,7 @@ const Login= () => {
                         <LockOutlinedIcon />
                     </Avatar>
                     <Typography component="h1" variant="h5">
-                        {isSignUp ?('Sign up'):('Sign in')}
+                        {!isSignUp ?("S'identifier"):('Créer un compte')}
                     </Typography>
                     <form className={classes.form} noValidate onSubmit={handleSubmit}>
                         <TextField
@@ -165,7 +174,7 @@ const Login= () => {
                             clientId={"790897231344-t3gdj672gnr7sk6n1eftal9fvgf9u1r2.apps.googleusercontent.com"}
                             render={(renderProps)=>(
                                 <Button className={classes.googleButton} fullWidth onClick={renderProps.onClick} disabled={renderProps.disabled} startIcon={<Icon/>} variant="contained">
-                                    Sign up with google
+                                    S'inscrire avec Google
                                 </Button>
                             )}
                             onSuccess={googleSuccess}

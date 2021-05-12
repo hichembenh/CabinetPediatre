@@ -45,8 +45,8 @@ export default function Navbar (){
         <>
             <nav className='navbar'>
                 <div className="navbar-container">
-                    <Link to='/' className='navbar-logo' onClick={closeMobileMenu}>
-                        {user ? ('Bienvenu '+user.result.firstName):('Home')}
+                    <Link to={!user? ('/'):('/profile')} className='navbar-logo' onClick={closeMobileMenu}>
+                        {user ? ('Bienvenu '+user.result.firstName):('Accueil')}
                     </Link>
                     <div className="menu-icon" onClick={handleClick}>
                         <span className={click ? 'fas fa-times':'fas fa-bars'}/>
@@ -89,9 +89,9 @@ export default function Navbar (){
                         </li>
                     </ul>
                         {button && (user?
-                                (<Button buttonStyle='btn--outline' className='nav-links' onClick={logout} link='/'>Logout</Button>
+                                (<Button buttonStyle='btn--outline' className='nav-links' onClick={logout} link='/'>Se deconnecter</Button>
                                 ):(
-                                <Button buttonStyle='btn--outline' className='nav-links' onClick={login && closeMobileMenu} link='/sign-up'>Sign In</Button>))}
+                                <Button buttonStyle='btn--outline' className='nav-links' onClick={login && closeMobileMenu} link='/sign-up'>S'identifier</Button>))}
                 </div>
 
             </nav>
