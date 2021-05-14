@@ -26,10 +26,13 @@ export default function CustomizedTables() {
     const rdvs = useSelector((state) => state.rdv)
     const kids = useSelector((state) => state.kids)
     const dispatch = useDispatch()
+
     useEffect(() => {
-        dispatch(getMyRdvs(localStorage.getItem('userId')));
-        dispatch(getKids())
+        dispatch(getRdvs());
     }, [dispatch]);
+    console.log(rdvs.filter(rdv=>{
+        if (rdv.parent===localStorage.getItem('userId')) return rdv
+    }))
     const findKid = () =>{
         const {kid} = kids.filter().map((kid)=>{
 
@@ -50,7 +53,9 @@ export default function CustomizedTables() {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {rdvs.map((rdv) => (
+                    {rdvs.filter(rdv=>{
+                        if (rdv.parent===localStorage.getItem('userId')) return rdv
+                    }).map((rdv) => (
                         <StyledTableRow key={rdv.dateDebut.toLocaleString()}>
                             <StyledTableCell align="left">
                                 {new Date(rdv.dateDebut).toLocaleString()}

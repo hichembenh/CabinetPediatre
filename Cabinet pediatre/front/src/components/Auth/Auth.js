@@ -17,7 +17,7 @@ import Icon from './icon';
 import {useDispatch} from "react-redux";
 import {useHistory}from "react-router-dom";
 import {signup,signin} from '../../actions/auth'
-import validateInfo from "../Form/validateInfo";
+import validateInfo, {isEmpty} from "../Form/validateInfo";
 
 const initialState={firstName:'', lastName:'',numTel:'',email:'',password:'',confirmPassword:''};
 const Login= () => {
@@ -38,7 +38,8 @@ const Login= () => {
         e.preventDefault();
             if (isSignUp){
                 setErrors(validateInfo(form))
-                dispatch(signup(form,history))
+                if (isEmpty(errors))
+                    dispatch(signup(form,history))
             }else{
                 dispatch(signin(form,history))
             }

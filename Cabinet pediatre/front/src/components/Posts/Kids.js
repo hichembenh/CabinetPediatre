@@ -9,6 +9,9 @@ const Kids = ({ setCurrentId }) => {
     const [search,setSearch] = useState('')
     const kids = useSelector((state) => state.kids);
     const classes = useStyles();
+    const myKids = kids.filter(kid =>{
+        if (kid.parent === localStorage.getItem('userId')) return kid
+    })
 
     return (
         !kids.length ? <CircularProgress /> : (
@@ -28,7 +31,7 @@ const Kids = ({ setCurrentId }) => {
                     </label>
                 </div>
             <Paper className={classes.container} elevation={0} spacing={3}>
-                {kids.filter((val)=>{
+                {myKids.filter((val)=>{
                         if(search === ""){
                             return val
                         }else if(val.name.toLowerCase().includes(search.toLowerCase())){

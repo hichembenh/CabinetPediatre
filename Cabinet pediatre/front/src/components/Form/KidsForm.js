@@ -8,13 +8,14 @@ import "react-datepicker/dist/react-datepicker.css";
 import useStyles from './styles';
 import {createKid, updateKid} from "../../actions/kids";
 import AlertNotification from "../Confirm/alert";
+import {validateKid,isEmpty} from "./validateInfo";
 
 
 const FormKid = ({ currentId, setCurrentId }) => {
 
     const kid = useSelector((state) => (currentId ? state.kids.find((message) => message._id === currentId) : null));
     const [kidData, setKidData] =useState(!currentId ?(
-        { name: '', lastName: '', photo:'', age: new Date(), gender:'boy', userId:localStorage.getItem('userId')}
+        { name: '', lastName: '', photo:'', age: new Date(), gender:'Garcon', userId:localStorage.getItem('userId')}
         ):(kid))
     const [notify,setNotify]= useState({
         isOpen:false,
@@ -23,7 +24,7 @@ const FormKid = ({ currentId, setCurrentId }) => {
     })
     const dispatch = useDispatch();
     const classes = useStyles();
-    const [sexe, setSexe] = useState(currentId?(kidData.gender):('boy'));
+    const [errors,setErrors] = useState({name:'Champs obligatoire', lastName:'champs obligatoire'})
 
     useEffect(() => {
         if (kid) {
@@ -34,7 +35,7 @@ const FormKid = ({ currentId, setCurrentId }) => {
 
     const clear = () => {
         setCurrentId(0);
-        setKidData({ name: '', lastName: '', photo: '', age:new Date(), gender:'boy', userId:localStorage.getItem('userId')});
+        setKidData({ name: '', lastName: '', photo: '', age:new Date(), gender:'Garcon', userId:localStorage.getItem('userId')});
     };
 
     const handleChangeSexe = (event) => {
@@ -44,15 +45,24 @@ const FormKid = ({ currentId, setCurrentId }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (currentId === 0) {
-            dispatch(createKid(kidData));
-            setNotify({
-                isOpen: true,
-                message: 'Enfant créé',
-                type: 'success'
-            })
-            clear();
+            setErrors(validateKid(kidData))
+            console.log(errors)
+            if (isEmpty(errors)){
+                dispatch(createKid(kidData));
+                setNotify({
+                    isOpen: true,
+                    message: 'Enfant créé',
+                    type: 'success'
+                })
+                clear();
+            } else{
+                setNotify({
+                    isOpen: true,
+                    message: 'Erreur de creation',
+                    type: 'error'
+                })
+            }
         } else {
-            console.log(kidData)
             dispatch(updateKid(currentId, kidData));
             setNotify({
                 isOpen: true,
@@ -77,26 +87,28 @@ const FormKid = ({ currentId, setCurrentId }) => {
 
     const materialDateInput = `${year}-${month}-${date}`; // combining to format for defaultValue or value attribute of material <TextField>
 
-
     return (
 
     <div>
         <form autoComplete="off" noValidate className={`${classes.root} ${classes.form}`} onSubmit={handleSubmit}>
-                <Typography variant="h6">{currentId ? `Modifier "${kid.lastName}"` : null}</Typography>
+                <Typography variant="h6">{currentId ? `Modifier "${kid.name}"` : null}</Typography>
                 <TextField
-                    name="lastName"
                     variant="outlined"
                     label="prenom"
                     fullWidth
                     value={kidData.lastName}
                     onChange={(e) => setKidData({ ...kidData, lastName: e.target.value })} />
-                <TextField
+            {errors.lastName && <p style={{ color: 'red' }}>{errors.lastName}</p>}
+
+            <TextField
                     name="name"
                     variant="outlined"
                     label="nom"
                     fullWidth
                     value={kidData.name}
                     onChange={(e) => setKidData({ ...kidData, name: e.target.value })} />
+            {errors.name && <p style={{ color: 'red' }}>{errors.name}</p>}
+
             <Grid
                 container
                 direction="row"
@@ -109,8 +121,8 @@ const FormKid = ({ currentId, setCurrentId }) => {
                         value={kidData.gender}
                         onChange={handleChangeSexe}
                     >
-                        <MenuItem value={'boy'}>Garçon</MenuItem>
-                        <MenuItem value={'girl'}>fillette</MenuItem>
+                        <MenuItem value={'Garcon'}>Garçon</MenuItem>
+                        <MenuItem value={'Fille'}>fillette</MenuItem>
                     </Select>
                 </div>
                     <TextField

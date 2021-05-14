@@ -7,8 +7,8 @@ import {MuiPickersUtilsProvider, DatePicker,TimePicker } from "@material-ui/pick
 import DateFnsUtils from '@date-io/date-fns';
 import Calendar from "../Calendar/calendar";
 import moment from "moment";
-import {useGoogleLogin} from "react-google-login";
 import AlertNotification from "../Confirm/alert";
+import {isEmpty, validateRdv} from "./validateInfo";
 
 const RdvModal = ({ kid, showModal, setShowModal }) => {
     const [newRdv] = useState({
@@ -28,9 +28,15 @@ const RdvModal = ({ kid, showModal, setShowModal }) => {
         type:''
     })
     const [selectVaccin,setSelectVaccin] = useState(true)
-    const [selectedDate, setSelectedDate] = useState(new Date(moment().hours(8).minutes(0)));
+    const [selectedDate, setSelectedDate] = useState(new Date(moment().hours(8).minutes(0).seconds(0).milliseconds(0)));
     const [open, setOpen] = useState(false);
-    const [validDate,setValidDate] = useState(false);
+    const [errors,setErrors] = useState({dateDebut:''})
+    var dateReserved = []
+    rdvs.map(rdv=>{
+        dateReserved.push(new Date(rdv.dateDebut).setMilliseconds(0))
+    })
+
+    console.log(`errors: ${errors.dateDebut}`)
     const calendar = (
         <div>
             <Calendar/>
@@ -45,28 +51,15 @@ const RdvModal = ({ kid, showModal, setShowModal }) => {
         e.preventDefault()
         newRdv.vaccin=selectVaccin
         newRdv.dateDebut= selectedDate
-        console.log(newRdv.dateDebut)
-        dispatch(createRdv(newRdv))
-        setNotify({
-            isOpen: true,
-            message: 'Rendez-vous ajouté',
-            type: 'success'
-        })
-    }
-    function isBooked () {
-        var check = false
-        rdvs.forEach((rdv)=>{
-            if (
-                selectedDate.getYear() === moment(rdv.dateDebut).year() &&
-                selectedDate.getMonth() === moment(rdv.dateDebut).month() &&
-                selectedDate.getDay() === moment(rdv.dateDebut).day() &&
-                selectedDate.getHours() === moment(rdv.dateDebut).hour() &&
-                selectedDate.getMinutes() === moment(rdv.dateDebut).minutes()
-            ) {
-                check = true;
-            }
+        setErrors(validateRdv(newRdv,dateReserved))
+        if (isEmpty(errors)){
+            dispatch(createRdv(newRdv))
+            setNotify({
+                isOpen: true,
+                message: 'Rendez-vous ajouté',
+                type: 'success'
             })
-        return check
+        }
     }
     const handleDateChange = (date) =>{
         setSelectedDate(date);
@@ -169,7 +162,6 @@ const RdvModal = ({ kid, showModal, setShowModal }) => {
                                                     onChange={handleDateChange}
                                                 />
                                                 </MuiPickersUtilsProvider>
-                                                {validDate ? (<div>date reservé</div>):null}
                                                 <div>
                                                     <InputLabel>Vaccin ?</InputLabel>
                                                     <Checkbox
@@ -179,6 +171,7 @@ const RdvModal = ({ kid, showModal, setShowModal }) => {
                                                         onChange={handleVaccin}
                                                     />
                                                 </div>
+                                                {errors.dateDebut && <p style={{ color: 'red' }}>{errors.dateDebut}</p>}
                                             </Grid>
 
                                             <Grid
@@ -219,3 +212,5 @@ const RdvModal = ({ kid, showModal, setShowModal }) => {
     );
 };
 export default RdvModal
+
+//(dateReserved.find(item => {return item === newRdv.dateDebut}) || []).length > 0

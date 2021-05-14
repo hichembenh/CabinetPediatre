@@ -1,3 +1,9 @@
+import {useDispatch, useSelector} from "react-redux";
+import {useEffect} from "react";
+import {getRdvs} from "../../actions/rdv";
+import moment from "moment";
+
+
 export default function validateInfo(values) {
     let errors = {};
 
@@ -36,4 +42,43 @@ export default function validateInfo(values) {
         errors.numTel= 'Numero de telephoe doit etre composé de 8 chiffres ';
     }
     return errors;
+}
+
+export function validateKid (values){
+
+    let errors={}
+
+
+    if (!values.name.trim()){
+        errors.name = 'Champ obligatoire';
+    }else if (!/^[A-Za-z]+/.test(values.name.trim()))
+        {
+        errors.name='Entrer un nom valide';
+    }
+    if (!values.lastName){
+        errors.lastName = 'Champ obligatoire';
+    }else if (!/^[A-Za-z]+/.test(values.lastName.trim()))
+    {
+        errors.lastName='Entrer un nom valide';
+    }
+    if (Date(values.dateDebut))
+    return errors
+}
+
+export function validateRdv (values,reservedDates){
+    let errors = {}
+    reservedDates.map(dateR=>{
+        if (dateR===values.dateDebut.getTime()){
+            errors.dateDebut='Date reservé, vous pouvez consulter le calendrier';
+        }
+    })
+    return errors
+}
+
+export function isEmpty(obj) {
+    for(var key in obj) {
+        if(obj.hasOwnProperty(key))
+            return false;
+    }
+    return true;
 }
