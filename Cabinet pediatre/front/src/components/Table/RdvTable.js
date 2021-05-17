@@ -13,6 +13,7 @@ import {Button} from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 
 export default function CustomizedTables() {
+    const [search,setSearch] = useState('')
     const classes = useStyles();
     const rdvs = useSelector((state) => state.rdv)
     const dispatch = useDispatch()
@@ -42,6 +43,20 @@ export default function CustomizedTables() {
 
     return (
         <TableContainer component={Paper}>
+            <div>
+                <label htmlFor="search" className='form-label'>
+                    <input
+                        id="search"
+                        type="text"
+                        placeholder="Chercher par nom"
+                        onChange={(event)=>{
+                            setSearch(event.target.value)
+                        }}
+                        className={classes.input}
+                    />
+
+                </label>
+            </div>
             <Table className={classes.table} aria-label="customized table">
                     {user.result.isSec ? (
                         <>
@@ -56,7 +71,13 @@ export default function CustomizedTables() {
                                 </TableRow>
                             </TableHead>
                         <TableBody>
-                            {rdvs.map((rdv) => (
+                            {rdvs.filter((val)=>{
+                                if(search === ""){
+                                    return val
+                                }else if(val.kid.lastName.toLowerCase().includes(search.toLowerCase())){
+                                    return val
+                                }
+                            }).map((rdv) => (
                                 <StyledTableRow key={rdv._id}>
                                     <StyledTableCell align="left">
                                         <div>{new Date(rdv.dateDebut).toLocaleString()}</div>

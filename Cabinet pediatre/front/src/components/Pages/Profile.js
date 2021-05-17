@@ -1,15 +1,11 @@
 import React, {useState} from "react";
-import {Button, Container, Grid, Grow, Typography} from "@material-ui/core";
-import {updateUser} from "../../actions/user";
-import {useDispatch} from "react-redux";
+import {Container, Grid, Grow, Typography} from "@material-ui/core";
 import useStyles from '../Form/styles'
-import validateInfo from "../Form/validateInfo";
 import CustomizedTables from "../Table/RdvTable";
 import AuthForm from "../Form/authForm";
 
 const Profile = () =>{
     const classes = useStyles()
-    const dispatch = useDispatch()
     const [user,setUser] = useState({
         firstName:JSON.parse(localStorage.getItem('profile')).result.firstName,
         lastName:JSON.parse(localStorage.getItem('profile')).result.lastName,
@@ -18,13 +14,7 @@ const Profile = () =>{
         password:'',
         confirmPassword:''
     })
-    const [errors,setErrors] = useState({})
 
-    const handleSubmit = () =>{
-        console.log(user)
-        setErrors(validateInfo(user))
-        dispatch(updateUser(localStorage.getItem('userId'), user));
-    }
 
     return (
         <>

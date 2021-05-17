@@ -7,6 +7,11 @@ export const useStyles = makeStyles({
         minWidth: 500,
         marginTop: '2%'
     },
+    input:{
+        paddingRight:'10%',
+        marginLeft:'70%',
+        marginTop:'1%'
+    }
 });
 export const StyledTableCell = withStyles((theme) => ({
     head: {

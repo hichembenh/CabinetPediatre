@@ -7,18 +7,30 @@ import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import { deleteKid } from '../../../actions/kids';
 import useStyles from './styles';
 import RdvModel from '../../Form/rdvModel'
-import {Button, Card, CardActions, CardMedia, Grid, Typography} from "@material-ui/core";
+import {Button, Card, CardActions, CardMedia, Grid, Modal, Typography} from "@material-ui/core";
 import AlertNotification from "../../Confirm/alert";
+import FichePatient from "../../Fiche/FichePatient";
 
 const Kid = ({ kid, setCurrentId }) => {
     const dispatch = useDispatch();
     const classes = useStyles();
     const [rdvModeltest,setRdvModeltest]=useState(false)
+    const [open, setOpen] = useState(false);
     const [notify, setNotify] = useState({
         isOpen:false,
         message:'',
         type:''
     })
+
+    const handleOpen = () => {
+        setOpen(!open);
+    };
+
+    const fp =(
+        <div>
+            <FichePatient kid={kid}/>
+        </div>
+    )
 
     const showRdvModel = () =>{
         setRdvModeltest(!rdvModeltest)
@@ -37,7 +49,7 @@ const Kid = ({ kid, setCurrentId }) => {
     return (
         <>
             <Grid item>
-            <Card className={classes.card}>
+             <Card className={classes.card}>
         {rdvModeltest ? (
             <RdvModel
                 showModal={rdvModeltest}
@@ -68,7 +80,7 @@ const Kid = ({ kid, setCurrentId }) => {
                         alignItems="center"
                     >
                         <Button size="small" color="primary" onClick={handleDelete}><DeleteIcon fontSize="small" /> Supprimer</Button>
-                        <Button size="small" color="primary"><AssignmentIcon fontSize="small"/> Fiche patient</Button>
+                        <Button size="small" color="primary" onClick={handleOpen}><AssignmentIcon fontSize="small"/> Fiche patient</Button>
                         <Button size="large" color="primary" onClick={showRdvModel}><AddBoxIcon fontSize="small"/> Demander un rendez-vous</Button>
                     </Grid>
                 </CardActions>
@@ -77,6 +89,14 @@ const Kid = ({ kid, setCurrentId }) => {
                 notify={notify}
                 setNotify={setNotify}
             />
+                <Modal
+                    open={open}
+                    onClose={handleOpen}
+                    aria-labelledby="simple-modal-title"
+                    aria-describedby="simple-modal-description"
+                >
+                    {fp}
+                </Modal>
             </Grid>
         </>
     );

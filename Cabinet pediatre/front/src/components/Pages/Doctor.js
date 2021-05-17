@@ -2,6 +2,7 @@ import React from 'react'
 import {Button, Card, CardActions, CardContent, Container, Grid, Typography} from "@material-ui/core";
 import useStyles from './style'
 import UsersTable from '../Table/UsersTable'
+import Kids from "../Posts/Kids";
 
 
 const Doctor = () =>{
@@ -55,6 +56,7 @@ const Doctor = () =>{
                 </Grid>
             </Grid>
                 <UsersTable/>
+                <Kids/>
             </Container>
         </>
     )

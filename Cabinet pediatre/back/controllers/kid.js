@@ -9,7 +9,7 @@ const router = express.Router();
 
 export const getKids = async (req, res) => {
     try {
-        const kid = await Kid.find();
+        const kid = await Kid.find().populate('rdvs');
         res.status(200).json(kid);
     } catch (error) {
         res.status(404).json({ message: error.message });

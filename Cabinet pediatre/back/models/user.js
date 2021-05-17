@@ -10,10 +10,6 @@ const userSchema = new Schema({
     password: {type:String, required:   true},
     isSec:{type:Boolean,default:false},
     isAdmin:{type:Boolean,default:false},
-    createdAt:{
-        type:Date,
-        default:new Date()
-    },
     kids:[{
         type:Schema.Types.ObjectId,
         ref:'kids',

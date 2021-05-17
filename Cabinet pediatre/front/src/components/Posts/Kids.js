@@ -14,6 +14,7 @@ const Kids = ({ setCurrentId }) => {
         if (kid.parent === localStorage.getItem('userId')) return kid
     })
 
+    console.log(kids)
     return (
         !kids.length ? <CircularProgress /> : (
             <>
@@ -36,7 +37,7 @@ const Kids = ({ setCurrentId }) => {
                    direction="row"
                    justify="center"
                    alignItems="center">
-                {user.result.isSec ? (
+                {user.result.isSec || user.result.isAdmin ? (
                     kids.filter((val)=>{
                             if(search === ""){
                                 return val
