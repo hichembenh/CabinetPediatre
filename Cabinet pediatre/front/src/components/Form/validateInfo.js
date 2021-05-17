@@ -21,12 +21,10 @@ export default function validateInfo(values) {
      }
 
     if (!values.email) {
-        errors.email = 'Champ obligatoire';
     } else if (!/\S+@\S+\.\S+/.test(values.email)) {
         errors.email = 'Address email invalide';
     }
     if (!values.password) {
-        errors.password = 'Champ obligatoire';
     } else if (values.password.length < 6) {
         errors.password = 'Mot de passe ou email invalide';
     }

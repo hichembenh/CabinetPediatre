@@ -9,8 +9,6 @@ import useStyles from './styles';
 import RdvModel from '../../Form/rdvModel'
 import {Button, Card, CardActions, CardMedia, Grid, Typography} from "@material-ui/core";
 import AlertNotification from "../../Confirm/alert";
-import ConfirmDialog from "../../Confirm/confirmDialog";
-
 
 const Kid = ({ kid, setCurrentId }) => {
     const dispatch = useDispatch();
@@ -20,11 +18,6 @@ const Kid = ({ kid, setCurrentId }) => {
         isOpen:false,
         message:'',
         type:''
-    })
-    const [confirmDialog,setConfirmDialog] = useState({
-        isOpen:false,
-        title:'',
-        subTitle:''
     })
 
     const showRdvModel = () =>{
@@ -43,6 +36,7 @@ const Kid = ({ kid, setCurrentId }) => {
 
     return (
         <>
+            <Grid item>
             <Card className={classes.card}>
         {rdvModeltest ? (
             <RdvModel
@@ -51,19 +45,18 @@ const Kid = ({ kid, setCurrentId }) => {
                 kid={kid}
             />        ):(
                 <Card>
-                <CardMedia className={classes.media} image={kid.photo || 'https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png'} title={kid.firstName} />
-                <div className={classes.overlay}>
-                    <Typography variant="h1">{kid.lastName} {kid.name}</Typography>
-                    <Typography variant="h4">{new Date(kid.age).toLocaleDateString()}</Typography>
-                    <Typography variant="h6">Garçon</Typography>
-                </div>
-                <div className={classes.overlay2}>
-                    <Button style={{ color: 'white' }} size="small" onClick={() => {
-                        setCurrentId(kid._id)
-                        console.log(new Date(kid.age).getFullYear())
-                    }}><MoreHorizIcon fontSize="default" /></Button>
-                </div>
-                <Typography className={classes.age} gutterBottom variant="h5" component="h2">{kid.title}</Typography>
+                    <CardMedia className={classes.media} image={kid.photo || 'https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png'} title={kid.firstName} />
+                    <div className={classes.overlay}>
+                        <Typography variant="h4">{kid.lastName} {kid.name}</Typography>
+                        <Typography variant="h4">{new Date(kid.age).toLocaleDateString()}</Typography>
+                        <Typography variant="h6">{kid.gender==='boy' ? 'Garçon':'Fille'}</Typography>
+                    </div>
+                    <div className={classes.overlay2}>
+                        <Button style={{ color: 'white' }} size="small" onClick={() => {
+                            setCurrentId(kid._id)
+                        }}><MoreHorizIcon fontSize="default" /></Button>
+                    </div>
+                    <Typography className={classes.age} gutterBottom variant="h5" component="h2">{kid.title}</Typography>
 
                 </Card>
                 )}
@@ -84,7 +77,7 @@ const Kid = ({ kid, setCurrentId }) => {
                 notify={notify}
                 setNotify={setNotify}
             />
-
+            </Grid>
         </>
     );
 };

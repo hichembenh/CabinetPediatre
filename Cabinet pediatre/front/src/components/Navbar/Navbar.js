@@ -62,7 +62,7 @@ export default function Navbar (){
                                 Services
                             </Link>
                         </li>
-                        {user && !user.result.isSec && (
+                        {user && !user.result.isSec && !user.result.isAdmin &&(
                             <>
                             <li className='nav-item'>
                                 <Link to='/kids' className='nav-links' onClick={closeMobileMenu}>
@@ -73,7 +73,7 @@ export default function Navbar (){
                         )}
                         {user && (user.result.isSec || user.result.isAdmin) && (
                             <li className='nav-item'>
-                                <Link to='/secretaire' className='nav-links' onClick={closeMobileMenu}>
+                                <Link to={user.result.isSec ? '/secretaire':'/doctor'} className='nav-links' onClick={closeMobileMenu}>
                                     Dashboard
                                 </Link>
                             </li>

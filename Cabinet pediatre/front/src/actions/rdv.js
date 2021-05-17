@@ -1,4 +1,4 @@
-import {FETCH_RDV, DELETE_RDV, UPDATE_RDV, CREATE_RDV} from "../constants/actionTypes";
+import {FETCH_RDV, DELETE_RDV, CREATE_RDV, DELETE_KID} from "../constants/actionTypes";
 import * as api from '../api/index.js';
 
 export const getRdvs = () => async (dispatch) => {
@@ -33,3 +33,14 @@ export const getMyRdvs = (id) => async (dispatch)=>{
     }
 
 }
+
+export const deleteRdv = (id) => async (dispatch) => {
+    try {
+        await api.deleteRdv(id);
+        console.log('deleted')
+
+        dispatch({ type: DELETE_RDV, payload: id });
+    } catch (error) {
+        console.log(error.message);
+    }
+};

@@ -24,7 +24,7 @@ const FormKid = ({ currentId, setCurrentId }) => {
     })
     const dispatch = useDispatch();
     const classes = useStyles();
-    const [errors,setErrors] = useState({name:'Champs obligatoire', lastName:'champs obligatoire'})
+    const [errors,setErrors] = useState({name:'', lastName:''})
 
     useEffect(() => {
         if (kid) {

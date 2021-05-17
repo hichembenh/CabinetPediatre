@@ -18,7 +18,7 @@ export default makeStyles({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
-    height: '500px',
+    height: '100%',
     position: 'relative',
     marginTop: '20px'
   },

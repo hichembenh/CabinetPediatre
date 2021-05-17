@@ -1,21 +1,25 @@
 import express from 'express';
 import mongoose from 'mongoose';
+import moment from "moment";
 
 import Rdv from '../models/rdv.js';
 import User from "../models/user.js";
 import Kid from "../models/kid.js";
-import moment from "moment";
 
 const router = express.Router();
 
 export const getRdvs = async (req, res) => {
     try {
-        const rdv = await Rdv.find();
+        const rdv = await Rdv.find().populate({
+            path:'kid',
+            populate: {
+                path:'parent'
+            }
+        });
         res.status(200).json(rdv);
-        console.log(rdv)
     } catch (error) {
         res.status(404).json({ message: error.message });
-        console.log('fetching error')
+        console.log('fetching rdv error')
     }
 }
 
@@ -26,7 +30,7 @@ export const getMyRdv = async (req,res) =>{
         console.log(user)
     }catch (error){
         console.log(error.message)
-        console.log('getting my rdv fail')
+        console.log('fetching my rdv fail')
     }
 }
 
@@ -59,11 +63,11 @@ export const createRdv = async (req, res) => {
         kid.rdvs.push(newRdv)
         await kid.save()
         res.status(201).json(newRdv);
-        console.log('creacted')
+        console.log('rdv creacted')
     } catch (error) {
         res.status(409).json({ message: error.message });
         console.log(error.message)
-        console.log('creating error')
+        console.log('creating rdv error')
     }
 }
 
@@ -81,7 +85,7 @@ export const updateRdv = async (req, res) => {
         res.json(updatedRdv);
     }catch (e){
         console.log(e.message)
-        console.log('error')
+        console.log('error rdv update')
     }
 }
 

@@ -7,6 +7,7 @@ import Home from "./components/Pages/Home";
 import Kids from "./components/Pages/Kids";
 import Secretaire from "./components/Pages/Secretaire";
 import Profile from "./components/Pages/Profile";
+import Doctor from "./components/Pages/Doctor";
 import Navbar from "./components/Navbar/Navbar";
 
 
@@ -22,6 +23,7 @@ const App = () => {
           <Route path='/kids' exact component={Kids}/>
           <Route path='/secretaire' exact component={Secretaire}/>
           <Route path='/profile' exact component={Profile}/>
+          <Route path='/doctor' exact component={Doctor}/>
         </Switch>
       </Router>
 

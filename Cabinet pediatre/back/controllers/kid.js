@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 
 import Kid from '../models/kid.js';
 import User from '../models/user.js'
+import Rdv from "../models/rdv.js";
 
 const router = express.Router();
 
@@ -73,7 +74,7 @@ export const deleteKid = async (req, res) => {
     console.log(id)
 
     if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No kid with id: ${id}`);
-
+    await Rdv.deleteMany({kid:id})
     await Kid.findByIdAndRemove(id);
 
     res.json({ message: "Kid deleted successfully." });
