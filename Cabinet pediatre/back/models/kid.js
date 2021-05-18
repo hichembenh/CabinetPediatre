@@ -7,6 +7,16 @@ const kidSchema=new mongoose.Schema({
     age: Date,
     photo: String,
     gender:String,
+    poid:{
+        type:"Number",
+        required:false,
+        default:0
+    },
+    taille:{
+        type:"Number",
+        required:false,
+        default:0
+    },
     parent:{
         type:mongoose.Schema.Types.ObjectId,
         ref:"user"

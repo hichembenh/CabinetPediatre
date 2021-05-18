@@ -41,6 +41,13 @@ export default function CustomizedTables() {
             })
         }
     }*/
+
+    function kidsNumber(user){
+        var count = 0
+        for (var kid in user.kids) count++
+        return count
+    }
+
     function handleChangeSec(user){
         if (window.confirm(`Voulez vous vraiment rendre ${user.firstName} secretaire ?`)) {
             const userData = {
@@ -99,8 +106,8 @@ export default function CustomizedTables() {
                                 <StyledTableRow key={user._id}>
                                     <StyledTableCell align="left"><div>{user.firstName}</div></StyledTableCell>
                                     <StyledTableCell align="left"><div>{user.lastName}</div></StyledTableCell>
-                                    <StyledTableCell align="left"><div>{user.kids.lastName}</div></StyledTableCell>
-                                    <StyledTableCell align="left"><div>{user.isSec? 'Secretaire':'Parent'}</div></StyledTableCell>
+                                    <StyledTableCell align="left"><div>{kidsNumber(user)}</div></StyledTableCell>
+                                    <StyledTableCell align="left"><div>{user.isSec? 'Secretaire': user.isAdmin ? 'Admin':'Parent'}</div></StyledTableCell>
                                     <StyledTableCell>
                                         <Button size="small" color="secondary" ><DeleteIcon fontSize="small" /></Button>
                                         <Button size="small" color="primary" onClick={()=>handleChangeSec(user)}><HowToRegIcon/></Button>

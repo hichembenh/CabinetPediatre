@@ -125,7 +125,7 @@ const RdvModal = ({ kid, showModal, setShowModal }) => {
                                                     name="lastName"
                                                     variant="outlined"
                                                     label='Sexe'
-                                                    value={kid.gender}
+                                                    value={kid.gender==="Garcon" ? 'Garçon':'Fille'}
                                                     disabled
                                                 />
                                                 <TextField

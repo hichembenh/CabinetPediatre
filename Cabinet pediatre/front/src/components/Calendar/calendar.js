@@ -36,7 +36,7 @@ const Calendar = () => {
                         new Date(now())
                     }
                     events={rdvs.map((rdv)=>( {
-                        title: 'Reserved',
+                        title: 'Reservé',
                         start: new Date(rdv.dateDebut),
                         end: new Date(rdv.dateFin)
                             }))}

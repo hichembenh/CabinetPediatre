@@ -104,7 +104,9 @@ export default function CustomizedTables() {
                                     <StyledTableCell align="left">Date du rendez-vous</StyledTableCell>
                                     <StyledTableCell align="left">Nom enfant</StyledTableCell>
                                     <StyledTableCell align="left">Prenom enfant</StyledTableCell>
+                                    {user.result.isSec &&
                                     <StyledTableCell align="left">Prenom parent</StyledTableCell>
+                                    }
                                     <StyledTableCell align="left">Motif</StyledTableCell>
                                     <StyledTableCell align="left">Supprimer</StyledTableCell>
                                 </TableRow>
