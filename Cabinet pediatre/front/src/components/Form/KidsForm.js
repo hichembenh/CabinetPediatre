@@ -15,7 +15,7 @@ const FormKid = ({ currentId, setCurrentId }) => {
 
     const kid = useSelector((state) => (currentId ? state.kids.find((message) => message._id === currentId) : null));
     const [kidData, setKidData] =useState(!currentId ?(
-        { name: '', lastName: '', photo:'', age: new Date(), gender:'Garcon', userId:localStorage.getItem('userId')}
+        { name: '', lastName: '', photo:'', age: new Date(), gender:'Garcon', userId:localStorage.getItem('userId'),poid:0,taille:0,vaccins:{}}
         ):(kid))
     const [notify,setNotify]= useState({
         isOpen:false,
@@ -35,7 +35,16 @@ const FormKid = ({ currentId, setCurrentId }) => {
 
     const clear = () => {
         setCurrentId(0);
-        setKidData({ name: '', lastName: '', photo: '', age:new Date(), gender:'Garcon', userId:localStorage.getItem('userId')});
+        setKidData({ name: '',
+            lastName: '',
+            photo: '',
+            age:new Date(),
+            gender:'Garcon',
+            userId:localStorage.getItem('userId'),
+            poid:0,
+            taille:0,
+            vaccin: {}
+        });
     };
 
     const handleChangeSexe = (event) => {
@@ -55,21 +64,17 @@ const FormKid = ({ currentId, setCurrentId }) => {
                     type: 'success'
                 })
                 clear();
-            } else{
-                setNotify({
-                    isOpen: true,
-                    message: 'Erreur de creation',
-                    type: 'error'
-                })
             }
         } else {
-            dispatch(updateKid(currentId, kidData));
-            setNotify({
-                isOpen: true,
-                message: `${kidData.lastName} modifié`,
-                type: 'success'
-            })
-            clear();
+            if(isEmpty(errors)){
+                dispatch(updateKid(currentId, kidData));
+                setNotify({
+                    isOpen: true,
+                    message: `${kidData.lastName} modifié`,
+                    type: 'success'
+                })
+                clear();
+            }
         }
     };
 

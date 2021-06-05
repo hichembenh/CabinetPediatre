@@ -8,18 +8,22 @@ import Paper from '@material-ui/core/Paper';
 import {useDispatch, useSelector} from "react-redux";
 import {useStyles,StyledTableCell, StyledTableRow} from './styles'
 import AlertNotification from "../Confirm/alert";
-import {Button} from "@material-ui/core";
+import {Button, Modal} from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import HowToRegIcon from '@material-ui/icons/HowToReg';
 import {getUsers, updateUser} from "../../actions/user";
 import {getKids} from "../../actions/kids";
+import AuthForm from "../Form/authForm";
+import {getModalStyle} from "../Fiche/styles";
 
 export default function CustomizedTables() {
     const [search,setSearch] = useState('')
     const classes = useStyles();
     const users = useSelector((state) => state.user)
     const dispatch = useDispatch()
+    const [open, setOpen] = useState(false);
     const user= JSON.parse(localStorage.getItem('profile'))
+    const [modalStyle] = useState(getModalStyle())
     const [notify, setNotify] = useState({
         isOpen:false,
         message:'',
@@ -30,6 +34,9 @@ export default function CustomizedTables() {
         dispatch(getUsers());
         dispatch(getKids())
     }, [dispatch]);
+    const handleOpen = () => {
+        setOpen(!open);
+    };
 
 /*    function handleDelete (rdv){
         if (window.confirm('Vous voulez vraiment supprimer ?')) {
@@ -48,24 +55,14 @@ export default function CustomizedTables() {
         return count
     }
 
-    function handleChangeSec(user){
-        if (window.confirm(`Voulez vous vraiment rendre ${user.firstName} secretaire ?`)) {
-            const userData = {
-                firstName: user.firstName,
-                lastName: user.lastName,
-                numTel: user.numTel,
-                email: user.email,
-                password: user.password,
-                isSec: true
-            }
-            dispatch(updateUser(user._id, userData))
-            console.log(user._id)
-            setNotify({
-                isOpen: true,
-                message: `${user.firstName} est secretaire`,
-                type: 'success'
-            })
-        }
+    const userUp = () =>{
+
+    }
+
+
+
+    function handleDelete(){
+        if(window.confirm('Voulez vous vraiment supprimer cet utilisateur ?')){return null}
     }
 
     return (
@@ -92,7 +89,8 @@ export default function CustomizedTables() {
                                 <StyledTableCell align="left">Prenom de l'utilisateur</StyledTableCell>
                                 <StyledTableCell align="left">Nombre enfant</StyledTableCell>
                                 <StyledTableCell align="left">Role</StyledTableCell>
-                                <StyledTableCell align="left">Action</StyledTableCell>
+                                <StyledTableCell align="left">Supprimer</StyledTableCell>
+                                <StyledTableCell align="left">Modifier</StyledTableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -103,21 +101,37 @@ export default function CustomizedTables() {
                                     return val
                                 }
                             }).map((user)=>(
+                                <>
                                 <StyledTableRow key={user._id}>
                                     <StyledTableCell align="left"><div>{user.firstName}</div></StyledTableCell>
                                     <StyledTableCell align="left"><div>{user.lastName}</div></StyledTableCell>
                                     <StyledTableCell align="left"><div>{kidsNumber(user)}</div></StyledTableCell>
                                     <StyledTableCell align="left"><div>{user.isSec? 'Secretaire': user.isAdmin ? 'Admin':'Parent'}</div></StyledTableCell>
                                     <StyledTableCell>
-                                        <Button size="small" color="secondary" ><DeleteIcon fontSize="small" /></Button>
-                                        <Button size="small" color="primary" onClick={()=>handleChangeSec(user)}><HowToRegIcon/></Button>
+                                        <Button size="small" color="secondary" onClick={()=>handleDelete()} ><DeleteIcon fontSize="small" /></Button>
                                     </StyledTableCell>
+                                    <StyledTableCell>
+                                        <Button size="small" color="primary" onClick={handleOpen}><HowToRegIcon fontSize="small"/></Button>
+                                    </StyledTableCell>
+                                    <Modal
+                                        open={open}
+                                        onClose={handleOpen}
+                                        aria-labelledby="simple-modal-title"
+                                        aria-describedby="simple-modal-description"
+                                    >
+                                        <div style={modalStyle} className={classes.paper}>
+                                            <AuthForm old={user}/>
+                                        </div>
+                                    </Modal>
                                 </StyledTableRow>
+
+                                </>
                             ))}
                         </TableBody>
                     </>
 
             </Table>
+
             <AlertNotification
                 notify={notify}
                 setNotify={setNotify}

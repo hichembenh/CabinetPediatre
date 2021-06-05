@@ -21,7 +21,7 @@ const Doctor = () =>{
                     <Card className={classes.root} variant="outlined">
                         <CardContent>
                             <Typography className={classes.title} color="textSecondary" gutterBottom>
-                                Vous avez 5 rendez-vous aujourd'hui
+                                Vous avez 2 rendez-vous aujourd'hui
                             </Typography>
                         </CardContent>
                         <CardActions>
@@ -37,7 +37,7 @@ const Doctor = () =>{
                             </Typography>
                         </CardContent>
                         <CardActions>
-                            <Button size="small">Learn More</Button>
+                            <Button size="small"></Button>
                         </CardActions>
                     </Card>
                 </Grid>
@@ -50,7 +50,7 @@ const Doctor = () =>{
                             </Typography>
                         </CardContent>
                         <CardActions>
-                            <Button size="small">Learn More</Button>
+                            <Button size="small"></Button>
                         </CardActions>
                     </Card>
                 </Grid>

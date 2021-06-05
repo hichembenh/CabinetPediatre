@@ -25,6 +25,11 @@ const kidSchema=new mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:'rdv',
         required:false
+    }],
+    vaccins:[{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'kidVaccin',
+        required:false
     }]
 },{
     timestamps:true

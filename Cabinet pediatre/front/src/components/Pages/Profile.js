@@ -7,6 +7,7 @@ import AuthForm from "../Form/authForm";
 const Profile = () =>{
     const classes = useStyles()
     const [user,setUser] = useState({
+        _id:JSON.parse(localStorage.getItem('profile')).result._id,
         firstName:JSON.parse(localStorage.getItem('profile')).result.firstName,
         lastName:JSON.parse(localStorage.getItem('profile')).result.lastName,
         numTel:JSON.parse(localStorage.getItem('profile')).result.numTel,

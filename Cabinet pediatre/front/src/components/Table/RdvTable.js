@@ -56,6 +56,7 @@ export default function CustomizedTables() {
                     />
 
                 </label>
+                <h2>Table des rendez-vous</h2>
             </div>
             <Table className={classes.table} aria-label="customized table">
                     {user.result.isSec ? (
@@ -85,9 +86,9 @@ export default function CustomizedTables() {
                                     <StyledTableCell align="left"><div>{rdv.kid.name}</div></StyledTableCell>
                                     <StyledTableCell align="left"><div>{rdv.kid.lastName}</div></StyledTableCell>
                                     <StyledTableCell align="left"><div>{rdv.kid.parent.firstName}</div></StyledTableCell>
-                                    <StyledTableCell align="left">{rdv.kid.vaccin ? (
-                                        <div>Vaccin</div>
-                                    ):(<div>Consultation</div>)}</StyledTableCell>
+                                    <StyledTableCell align="left">
+                                        <div>{rdv.vaccin ? ("Vaccin"):('Consultation')}</div>
+                                    </StyledTableCell>
                                     <StyledTableCell align="left">
                                         <Button size="small" color="secondary" onClick={()=>{handleDelete(rdv._id)}}><DeleteIcon fontSize="small" /></Button>
                                     </StyledTableCell>

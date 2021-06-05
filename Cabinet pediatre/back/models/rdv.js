@@ -5,7 +5,7 @@ const {Schema}=mongoose;
 const rdvSchema=new Schema({
     parent:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:'user',
+        ref:'user'
     },
     kid:{
         type:mongoose.Schema.Types.ObjectId,

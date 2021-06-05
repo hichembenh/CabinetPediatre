@@ -53,13 +53,14 @@ export const signup = async (req, res) => {
 
 export const updateUser = async (req, res) => {
     const { id } = req.params;
-    const { firstName, lastName, numTel, email, password} = req.body;
+    const { firstName, lastName, numTel, email, password,isSec} = req.body;
     const hashedPassword = await bcrypt.hash(password, 12);
 
     if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No user with id: ${id}`);
 
-    const updatedUser = {firstName, lastName, numTel, email, password:hashedPassword, _id:id}
+    const updatedUser = {firstName, lastName, numTel, email, password:hashedPassword, _id:id,isSec}
     console.log(updatedUser)
+    console.log('updated')
     try {
         await User.findByIdAndUpdate(id, updatedUser, { new: true });
 

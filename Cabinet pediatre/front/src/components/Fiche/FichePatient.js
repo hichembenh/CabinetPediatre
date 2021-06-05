@@ -6,15 +6,26 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import useStyles from "./styles";
-import {getModalStyle} from "./styles";
-import {Grid, TextField} from "@material-ui/core";
+import useStyles,{getModalStyle} from "./styles";
+import {AppBar, Grid, Tab, Tabs, TextField} from "@material-ui/core";
 import {updateKid} from "../../actions/kids";
 import {useDispatch} from "react-redux";
+import AlertNotification from "../Confirm/alert";
+import {TabPanel} from "@material-ui/lab";
+import Table from "@material-ui/core/Table";
+import TableHead from "@material-ui/core/TableHead";
+import {StyledTableCell, StyledTableRow} from "../Table/styles";
+import TableBody from "@material-ui/core/TableBody";
+import moment from "moment/moment";
 
 export default function ImgMediaCard({kid}) {
     const [modifier,setModifier]= useState(false)
     const [newKid,setNewKid]=useState(kid)
+    const [notify,setNotify] = useState({
+        isOpen:false,
+        message:'',
+        type:''
+    })
     const dispatch = useDispatch()
     console.log(newKid)
     const user = JSON.parse(localStorage.getItem('profile'))
@@ -26,6 +37,11 @@ export default function ImgMediaCard({kid}) {
     }
     const handleSubmit=()=>{
         dispatch(updateKid(newKid._id, newKid));
+        setNotify({
+            isOpen: true,
+            message: 'Fiche patient modifié',
+            type: 'success'
+        })
     }
 
     return (
@@ -36,7 +52,7 @@ export default function ImgMediaCard({kid}) {
                     component="img"
                     alt="Contemplative Reptile"
                     height="140"
-                    image={kid.photo}
+                    image={kid.photo || 'https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png'}
                     title="Contemplative Reptile"
                 />
                 <CardContent>
@@ -46,6 +62,7 @@ export default function ImgMediaCard({kid}) {
                     <Grid
                         container
                         direction="row"
+                        spacing={2}
                         justify="space-between"
                         alignItems="center"
                     >
@@ -105,14 +122,30 @@ export default function ImgMediaCard({kid}) {
                         )}
                     </Grid>
 
-                    <Typography variant="body2" color="textSecondary" component="p">
+                    <Typography variant="body2" color="textPrimary" component="p">
                         Les rendez-vous:{kid.rdvs.map((rdv)=>(
-                        <Typography variant='h6' >{new Date(rdv.dateDebut).toLocaleString()}</Typography>
+                        <Typography variant='h6' color="textSecondary">{new Date(rdv.dateDebut).toLocaleString()}</Typography>
                     ))}
                     </Typography>
-                    <Typography variant='body2' color="textSecondary" component="p">
+                    <Typography variant='h6' color="textPrimary" component="p">
                         Les vaccins:
                     </Typography>
+                        <Table>
+                            <TableHead>
+                                <StyledTableCell>Titre</StyledTableCell>
+                                <StyledTableCell>Date limite</StyledTableCell>
+                                <StyledTableCell>Injecté ?</StyledTableCell>
+                            </TableHead>
+                            <TableBody>
+                                {kid.vaccins.map((vaccin)=>(
+                                    <StyledTableRow key={vaccin.id}>
+                                        <StyledTableCell>{vaccin.vaccin.title}</StyledTableCell>
+                                        <StyledTableCell>{moment(kid.age).add(vaccin.vaccin.ageDedie, 'M').format('DD-MM-YYYY')}</StyledTableCell>
+                                        <StyledTableCell>{vaccin.affected.toString()}</StyledTableCell>
+                                    </StyledTableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
                     <Typography variant='body2' color="textSecondary" component="p">
                         Les notes:
                     </Typography>
@@ -126,6 +159,10 @@ export default function ImgMediaCard({kid}) {
                 }
             </CardActions>
         </Card>
+            <AlertNotification
+                notify={notify}
+                setNotify={setNotify}
+            />
         </div>
     );
 }

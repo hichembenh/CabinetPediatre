@@ -61,7 +61,7 @@ const Kid = ({ kid, setCurrentId }) => {
                     <div className={classes.overlay}>
                         <Typography variant="h4">{kid.lastName} {kid.name}</Typography>
                         <Typography variant="h4">{new Date(kid.age).toLocaleDateString()}</Typography>
-                        <Typography variant="h6">{kid.gender==='boy' ? 'Garçon':'Fille'}</Typography>
+                        <Typography variant="h6">{kid.gender==='boy' || kid.gender==='Garcon' ? 'Garçon':'Fille'}</Typography>
                     </div>
                     <div className={classes.overlay2}>
                         <Button style={{ color: 'white' }} size="small" onClick={() => {
