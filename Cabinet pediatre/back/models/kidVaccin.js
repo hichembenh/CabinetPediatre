@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-import AllVaccin from "./vaccin.js";
 
 mongoose.set('useCreateIndex', true);
 const {Schema}=mongoose;
@@ -17,6 +16,5 @@ const kidVaccinSchema = new Schema({
         default:false
     }
 })
-
 const KidVaccin = mongoose.model('kidVaccin', kidVaccinSchema)
 export default KidVaccin

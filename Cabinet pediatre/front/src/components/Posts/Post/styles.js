@@ -20,11 +20,12 @@ export default makeStyles({
     justifyContent: 'space-between',
     height: '100%',
     position: 'relative',
-    marginTop: '20px'
+    marginTop: '20px',
+    marginLeft:'3%'
   },
   overlay: {
     position: 'absolute',
-    top: '50%',
+    top: '20%',
     left: '50%',
     color: 'white',
     textAlign: 'center',

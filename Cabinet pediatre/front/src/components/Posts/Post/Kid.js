@@ -26,15 +26,10 @@ const Kid = ({ kid, setCurrentId }) => {
         setOpen(!open);
     };
 
-    const fp =(
-        <div>
-            <FichePatient kid={kid}/>
-        </div>
-    )
-
     const showRdvModel = () =>{
         setRdvModeltest(!rdvModeltest)
     }
+
     const handleDelete = () =>{
         if (window.confirm('Vous voulez vraiment supprimer ?')) {
             dispatch(deleteKid(kid._id))
@@ -89,15 +84,17 @@ const Kid = ({ kid, setCurrentId }) => {
                 notify={notify}
                 setNotify={setNotify}
             />
-                <Modal
-                    open={open}
-                    onClose={handleOpen}
-                    aria-labelledby="simple-modal-title"
-                    aria-describedby="simple-modal-description"
-                >
-                    {fp}
-                </Modal>
             </Grid>
+            <Modal
+                open={open}
+                onClose={handleOpen}
+                aria-labelledby="simple-modal-title"
+                aria-describedby="simple-modal-description"
+            >
+                <div>
+                    <FichePatient kid={kid}/>
+                </div>
+            </Modal>
         </>
     );
 };

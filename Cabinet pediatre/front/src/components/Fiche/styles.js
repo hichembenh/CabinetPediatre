@@ -19,8 +19,7 @@ const useStyles = makeStyles((theme) => ({
 export default useStyles
 export function getModalStyle() {
     return {
-        top: `5%`,
-        left: '40%',
-        transform: `translate(50}%, 50%)`,
+        marginTop:'1%',
+        marginLeft: '16%',
     };
 }

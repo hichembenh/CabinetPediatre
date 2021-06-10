@@ -1,13 +1,18 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import moment from "moment";
+import Nexmo from 'nexmo'
+
 
 import Rdv from '../models/rdv.js';
 import User from "../models/user.js";
 import Kid from "../models/kid.js";
 
 const router = express.Router();
-
+const vonage = new Nexmo({
+    apiKey: "0e351a3a",
+    apiSecret: "mOk6Jy2twIl3MWoj"
+})
 export const getRdvs = async (req, res) => {
     try {
         const rdv = await Rdv.find().populate({
@@ -46,7 +51,6 @@ export const getRdv = async (req, res) => {
 
     }
 }
-
 export const createRdv = async (req, res) => {
     const newRdv = new Rdv(req.body)
 
@@ -64,6 +68,24 @@ export const createRdv = async (req, res) => {
         await kid.save()
         res.status(201).json(newRdv);
         console.log('rdv creacted')
+        console.log(newRdv.parent.numTel)
+        vonage.message.sendSms(
+            "21655864652",
+            `216${newRdv.parent.numTel}`,
+            `Votre rendez-vous avec Dr X le ${newRdv.dateDebut.toDateString()} a ${newRdv.dateDebut.getHours()} est bien enregistrer` ,
+            (err, responseData) => {
+            if (err) {
+                console.log(err);
+            } else {
+                if(responseData.messages[0]['status'] === "0") {
+                    console.log("Message sent successfully.");
+                } else {
+                    console.log(`Message failed with error: ${responseData.messages[0]['error-text']}`);
+                    console.log("sending message error")
+                }
+            }
+        })
+
     } catch (error) {
         res.status(409).json({ message: error.message });
         console.log(error.message)

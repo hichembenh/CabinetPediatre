@@ -5,7 +5,6 @@ import KidsPost from "../Posts/Kids";
 import FormKid from "../Form/KidsForm";
 import {useDispatch} from "react-redux";
 import {getKids} from "../../actions/kids";
-import Navbar from "../Navbar/Navbar";
 import useStyles from './style';
 
 
@@ -23,10 +22,6 @@ const Kids = () =>{
     }, [currentId, dispatch]);
     return(
         <>
-            <SuperNav
-            src={'/images/Baby.jpg'}
-            label='Mes Enfants'
-            />
             <Grow in>
 
                 <Container>

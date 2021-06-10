@@ -7,16 +7,16 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import useStyles,{getModalStyle} from "./styles";
-import {AppBar, Grid, Tab, Tabs, TextField} from "@material-ui/core";
+import {Checkbox, Grid, TextField} from "@material-ui/core";
 import {updateKid} from "../../actions/kids";
 import {useDispatch} from "react-redux";
 import AlertNotification from "../Confirm/alert";
-import {TabPanel} from "@material-ui/lab";
 import Table from "@material-ui/core/Table";
 import TableHead from "@material-ui/core/TableHead";
 import {StyledTableCell, StyledTableRow} from "../Table/styles";
 import TableBody from "@material-ui/core/TableBody";
 import moment from "moment/moment";
+import 'moment/locale/fr'
 
 export default function ImgMediaCard({kid}) {
     const [modifier,setModifier]= useState(false)
@@ -56,37 +56,62 @@ export default function ImgMediaCard({kid}) {
                     title="Contemplative Reptile"
                 />
                 <CardContent>
-                    <Typography gutterBottom variant="h5" component="h2">
+                    <Typography
+                        gutterBottom
+                        variant="h5"
+                        component="h2"
+                        align="center"
+                    >
                         {kid.lastName} {kid.name}
                     </Typography>
-                    <Grid
-                        container
-                        direction="row"
-                        spacing={2}
-                        justify="space-between"
-                        alignItems="center"
-                    >
                         {modifier ? (
                             <>
                                 <form onSubmit={handleSubmit}>
-                                    <Grid item>
-                                        <TextField
-                                            name="lastName"
-                                            variant="outlined"
-                                            label='Poid'
-                                            value={newKid.poid}
-                                            onChange={(e)=>setNewKid({...newKid, poid: e.target.value})}
-                                        />
+                                    <Grid
+                                        container
+                                        direction="row"
+                                        justify="space-between"
+                                        alignItems="center"
+                                    >
+                                            <TextField
+                                                name="lastName"
+                                                variant="outlined"
+                                                label='Poid'
+                                                value={newKid.poid}
+                                                onChange={(e)=>setNewKid({...newKid, poid: e.target.value})}
+                                            />
+                                            <TextField
+                                                name="lastName"
+                                                variant="outlined"
+                                                label='Taille'
+                                                value={newKid.taille}
+                                                onChange={(e)=>setNewKid({...newKid, taille: e.target.value})}
+                                            />
                                     </Grid>
-                                    <Grid item>
-                                        <TextField
-                                            name="lastName"
-                                            variant="outlined"
-                                            label='Taille'
-                                            value={newKid.taille}
-                                            onChange={(e)=>setNewKid({...newKid, taille: e.target.value})}
-                                        />
-                                    </Grid>
+                                <Typography variant='h6' color="textPrimary" component="p">
+                                    Les vaccins:
+                                </Typography>
+                                <Table>
+                                    <TableHead>
+                                        <StyledTableCell>Titre</StyledTableCell>
+                                        <StyledTableCell>Date limite</StyledTableCell>
+                                        <StyledTableCell>Injecté ?</StyledTableCell>
+                                    </TableHead>
+                                    <TableBody>
+                                        {kid.vaccins.map((vaccin)=>(
+                                            <StyledTableRow key={vaccin.id}>
+                                                <StyledTableCell>{vaccin.vaccin.title}</StyledTableCell>
+                                                <StyledTableCell>{moment(kid.age).lang('fr').add(vaccin.vaccin.ageDedie, 'M').format("Do MMM YYYY")}</StyledTableCell>
+                                                    <StyledTableCell>
+                                                        <Checkbox
+                                                            inputProps={{ 'aria-label': 'disabled checked checkbox' }}
+                                                            onChange={(e)=>setNewKid({...newKid.vaccins, affected: e.target.value})}
+                                                        />
+                                                    </StyledTableCell>
+                                            </StyledTableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
                                     <Button
                                         type="submit"
                                         fullWidth
@@ -96,56 +121,64 @@ export default function ImgMediaCard({kid}) {
                                         Enregistrer
                                     </Button>
                                 </form>
-
                             </>
                         ):(
-                            <>
-                            <Grid item>
-                                <TextField
+                            <form>
+                                <Grid
+                                    container
+                                    direction="row"
+                                    justify="space-around"
+                                    alignItems="center"
+                                >
+                                    <TextField
+                                        name="lastName"
+                                        variant="outlined"
+                                        label='Poid'
+                                        value={kid.poid}
+                                        disabled
+                                    />
+                                    <TextField
                                     name="lastName"
                                     variant="outlined"
-                                    label='Poid'
-                                    value={kid.poid}
+                                    label='Taille'
+                                    value={kid.taille}
                                     disabled
                                 />
-                            </Grid>
-                            <Grid item>
-                            <TextField
-                            name="lastName"
-                            variant="outlined"
-                            label='Taille'
-                            value={kid.taille}
-                            disabled
-                            />
-                            </Grid>
-                            </>
+                                </Grid>
+                                <Typography variant='h6' color="textPrimary" component="p">
+                                    Les vaccins:
+                                </Typography>
+                                <Table>
+                                    <TableHead>
+                                        <StyledTableCell>Titre</StyledTableCell>
+                                        <StyledTableCell>Date limite</StyledTableCell>
+                                        <StyledTableCell>Injecté ?</StyledTableCell>
+                                    </TableHead>
+                                    <TableBody>
+                                        {kid.vaccins.map((vaccin)=>(
+                                            <StyledTableRow key={vaccin.id}>
+                                                <StyledTableCell>{vaccin.vaccin.title}</StyledTableCell>
+                                                <StyledTableCell>{moment(kid.age).lang('fr').add(vaccin.vaccin.ageDedie, 'M').format("Do MMM YYYY")}</StyledTableCell>
+                                                {vaccin.affected ? (
+                                                    <StyledTableCell>
+                                                        <Checkbox disabled checked inputProps={{ 'aria-label': 'disabled checked checkbox' }} />
+                                                    </StyledTableCell>
+                                                ):(
+                                                    <StyledTableCell>
+                                                        <Checkbox disabled inputProps={{ 'aria-label': 'disabled checked checkbox' }} />
+                                                    </StyledTableCell>
+                                                )}
+                                            </StyledTableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                            </form>
                         )}
-                    </Grid>
-
-                    <Typography variant="body2" color="textPrimary" component="p">
+                    <Typography variant="h6" color="textPrimary" component="p">
                         Les rendez-vous:{kid.rdvs.map((rdv)=>(
                         <Typography variant='h6' color="textSecondary">{new Date(rdv.dateDebut).toLocaleString()}</Typography>
                     ))}
                     </Typography>
-                    <Typography variant='h6' color="textPrimary" component="p">
-                        Les vaccins:
-                    </Typography>
-                        <Table>
-                            <TableHead>
-                                <StyledTableCell>Titre</StyledTableCell>
-                                <StyledTableCell>Date limite</StyledTableCell>
-                                <StyledTableCell>Injecté ?</StyledTableCell>
-                            </TableHead>
-                            <TableBody>
-                                {kid.vaccins.map((vaccin)=>(
-                                    <StyledTableRow key={vaccin.id}>
-                                        <StyledTableCell>{vaccin.vaccin.title}</StyledTableCell>
-                                        <StyledTableCell>{moment(kid.age).add(vaccin.vaccin.ageDedie, 'M').format('DD-MM-YYYY')}</StyledTableCell>
-                                        <StyledTableCell>{vaccin.affected.toString()}</StyledTableCell>
-                                    </StyledTableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
                     <Typography variant='body2' color="textSecondary" component="p">
                         Les notes:
                     </Typography>
