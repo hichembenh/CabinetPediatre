@@ -12,6 +12,7 @@ const Kids = () =>{
     const [currentId, setCurrentId] = useState(0);
     const [FormKidModel,setFormKidModel] = useState(false);
     const dispatch = useDispatch();
+    const user = JSON.parse(localStorage.getItem('profile'))
     const classes = useStyles()
     const showFormKid = () =>{
         setFormKidModel(!FormKidModel)
@@ -22,6 +23,12 @@ const Kids = () =>{
     }, [currentId, dispatch]);
     return(
         <>
+            {user && (user.result.isSec || user.result.isAdmin)  ? null:(
+                <SuperNav
+                    src={'/images/Baby.jpg'}
+                    label='Mes Enfants'
+                />
+            )}
             <Grow in>
 
                 <Container>

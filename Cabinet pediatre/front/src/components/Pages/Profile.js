@@ -12,6 +12,8 @@ const Profile = () =>{
         lastName:JSON.parse(localStorage.getItem('profile')).result.lastName,
         numTel:JSON.parse(localStorage.getItem('profile')).result.numTel,
         email:JSON.parse(localStorage.getItem('profile')).result.email,
+        isAdmin:JSON.parse(localStorage.getItem('profile')).result.isAdmin,
+        isSec:JSON.parse(localStorage.getItem('profile')).result.isSec,
         password:'',
         confirmPassword:''
     })
@@ -29,14 +31,17 @@ const Profile = () =>{
                             spacing={2}
                         >
                             <AuthForm old={user}/>
-                            <Grid item xs={7} sm={7}>
-                                <Typography variant='h6'>
-                                    Mes rendez-vous
-                                </Typography>
-                                <div className={classes.table}>
-                                <CustomizedTables/>
-                                </div>
-                            </Grid>
+                            {user.isAdmin || user.isSec ? null:(
+                                <Grid item xs={7} sm={7}>
+                                    <Typography variant='h6'>
+                                        Mes rendez-vous
+                                    </Typography>
+                                    <div className={classes.table}>
+                                        <CustomizedTables/>
+                                    </div>
+                                </Grid>
+                            )}
+
                         </Grid>
                     </Container>
                 </Grow>

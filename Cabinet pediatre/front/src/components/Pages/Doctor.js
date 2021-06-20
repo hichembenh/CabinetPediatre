@@ -1,11 +1,35 @@
-import React from 'react'
-import {Button, Card, CardActions, CardContent, Container, Grid, Typography} from "@material-ui/core";
+import React, {useEffect, useState} from 'react'
+import {Button, Card, CardActions, CardContent, Container, Grid, Modal, Typography} from "@material-ui/core";
 import useStyles from './style'
 import UsersTable from '../Table/UsersTable'
 import Kids from "../Pages/Kids";
+import Calendar from "../Calendar/calendar";
+import {getRdvs} from "../../actions/rdv";
+import {useDispatch, useSelector} from "react-redux";
+import moment from "moment/moment";
 
 const Doctor = () =>{
     const classes = useStyles()
+    const [open, setOpen] = useState(false);
+    const dispatch = useDispatch()
+    const calendar = (
+        <div>
+            <Calendar/>
+        </div>
+    )
+    const today = moment()
+    const rdvs = useSelector((state) => state.rdv)
+    useEffect(() => {
+        dispatch(getRdvs());
+    }, [dispatch]);
+    let todayRDV = 0
+    rdvs.map(rdv=>{return moment(rdv.dateDebut)}).forEach(rdv =>{
+        if (today.day()===rdv.day()){
+            todayRDV++
+        }})
+    const handleOpen = () => {
+        setOpen(!open);
+    };
 
     return(
         <>
@@ -20,11 +44,11 @@ const Doctor = () =>{
                     <Card className={classes.root} variant="outlined">
                         <CardContent>
                             <Typography className={classes.title} color="textSecondary" gutterBottom>
-                                Vous avez 2 rendez-vous aujourd'hui
+                                Vous avez {todayRDV} rendez-vous aujourd'hui
                             </Typography>
                         </CardContent>
                         <CardActions>
-                            <Button size="small">Consulter le calendrier</Button>
+                            <Button size="small" onClick={handleOpen}>Consulter le calendrier</Button>
                         </CardActions>
                     </Card>
                 </Grid>
@@ -57,6 +81,14 @@ const Doctor = () =>{
                 <UsersTable/>
                 <Kids/>
             </Container>
+            <Modal
+                open={open}
+                onClose={handleOpen}
+                aria-labelledby="simple-modal-title"
+                aria-describedby="simple-modal-description"
+            >
+                {calendar}
+            </Modal>
         </>
     )
 }

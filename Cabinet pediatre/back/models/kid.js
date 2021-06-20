@@ -30,6 +30,11 @@ const kidSchema=new mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:'kidVaccin',
         required:false
+    }],
+    ordonnances:[{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'ordonnance',
+        required:false
     }]
 },{
     timestamps:true

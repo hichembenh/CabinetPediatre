@@ -45,3 +45,12 @@ export const deleteKid = (id) => async (dispatch) => {
         console.log(error.message);
     }
 };
+export const updateVacc = (id, vacc) => async (dispatch) => {
+    try {
+        const { data } = await api.updateKidVaccin(id, vacc);
+
+        dispatch({ type: UPDATE_KID, payload: data });
+    } catch (error) {
+        console.log(error.message);
+    }
+};

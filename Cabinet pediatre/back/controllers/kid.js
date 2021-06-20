@@ -16,6 +16,11 @@ export const getKids = async (req, res) => {
             populate:{
                 path:"vaccin"
             }
+        }).populate({
+            path:"ordonnances",
+            populate:{
+                path:"traitements"
+            }
         });
         res.status(200).json(kid);
     } catch (error) {
@@ -107,11 +112,22 @@ export const deleteKid = async (req, res) => {
     const { id } = req.params;
     console.log(id)
 
-    if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No kid with id: ${id}`);
-    await Rdv.deleteMany({kid:id})
-    await Kid.findByIdAndRemove(id);
+    try{
+        const kid = Kid.findById(id)
+        const user = User.findById(kid.parent)
+        console.log(kid)
+        if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No kid with id: ${id}`);
+        await Rdv.deleteMany({kid:id})
+        await User.findOneAndUpdate(
+            {'id':kid.parent},
+            {'$pull':{'kids': {'ObjectId':id}}}
+        )
+        await Kid.findByIdAndRemove(id);
 
-    res.json({ message: "Kid deleted successfully." });
+        res.json({ message: "Kid deleted successfully." });
+    }catch (e){
+        console.log(e.message)}
+
 }
 
 

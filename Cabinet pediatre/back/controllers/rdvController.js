@@ -72,10 +72,11 @@ export const createRdv = async (req, res) => {
         vonage.message.sendSms(
             "21655864652",
             `216${newRdv.parent.numTel}`,
-            `Votre rendez-vous avec Dr X le ${newRdv.dateDebut.toDateString()} a ${newRdv.dateDebut.getHours()} est bien enregistrer` ,
+            `votre rendez-vous sera le ${new Date(newRdv.dateDebut).toLocaleString()} chez le pédiatre Elyess` ,
             (err, responseData) => {
             if (err) {
                 console.log(err);
+                return
             } else {
                 if(responseData.messages[0]['status'] === "0") {
                     console.log("Message sent successfully.");

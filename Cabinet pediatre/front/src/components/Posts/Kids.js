@@ -10,9 +10,8 @@ const Kids = ({ setCurrentId }) => {
     const kids = useSelector((state) => state.kids);
     const user = JSON.parse(localStorage.getItem('profile'))
     const classes = useStyles();
-    const myKids = kids.filter(kid =>{
-        if (kid.parent === localStorage.getItem('userId')) return kid
-    })
+    const myKids = kids.filter(kid =>(kid.parent === localStorage.getItem('userId')))
+
 
     console.log(kids)
     return (

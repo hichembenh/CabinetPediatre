@@ -1,81 +1,52 @@
-/*import * as React from 'react';
-import {
-    PDFDocument,
-    PDFText,
-    PDFTable,
-    PDFTableRow,
-    PDFTableColumn,
-    PDFColumns,
-    PDFColumn
-} from 'react-pdfmake';
+import React from 'react';
+import {Page, Text, View, Document, StyleSheet} from '@react-pdf/renderer';
 
-const PatientPdf = () =>{
-    return (
-        <PDFDocument
-            pageSize="A5"
-            pageOrientation="portrait"
-            pageBreakBefore={(currentNode, followingNodesOnPage) => {
-                return (
-                    currentNode.headlineLevel === 1 && followingNodesOnPage.length === 0
-                );
-            }}
-            styles={{
-                header: {
-                    fontSize: 18,
-                    bold: true,
-                    margin: [0, 0, 0, 10]
-                },
-                subheader: {
-                    fontSize: 16,
-                    bold: true,
-                    margin: [0, 10, 0, 5]
-                },
-                tableExample: {
-                    margin: [0, 5, 0, 15]
-                },
-                tableHeader: {
-                    bold: true,
-                    fontSize: 13,
-                    color: 'black'
-                }
-            }}
-        >
-            <PDFText style="subheader">Headers</PDFText>
-            You can declare how many rows should be treated as a header. Headers are automatically
-            repeated on the following pages
-            <PDFText color="gray" italics>
-                Headers
-            </PDFText>
-            <PDFColumns columnGap={10}>
-                <PDFColumn width="*">Hi</PDFColumn>
-                <PDFColumn width="auto">Hi</PDFColumn>
-            </PDFColumns>
-            <PDFTable
-                headerRows={1}
-                style="tableExample"
-                pageOrientation="landscape"
-                pageBreak="before"
-            >
-                <PDFTableRow>
-                    <PDFTableColumn style="tableHeader">Header 1</PDFTableColumn>
-                    <PDFTableColumn style="tableHeader">Header 2</PDFTableColumn>
-                    <PDFTableColumn style="tableHeader">Header 3</PDFTableColumn>
-                </PDFTableRow>
-                <PDFTableRow>
-                    <PDFTableColumn>
-                        column 1
-                    </PDFTableColumn>
-                    <PDFTableColumn>
-                        column 2
-                    </PDFTableColumn>
-                    <PDFTableColumn>
-                        column 3
-                    </PDFTableColumn>
-                </PDFTableRow>
-            </PDFTable>
-        </PDFDocument>
-    );
-}
+// Create styles
+const styles = StyleSheet.create({
+    page: {
+        flexDirection: 'col',
+        spacing: '2',
+        backgroundColor: 'white',
+        height: 800
+    },
+    section: {
+        margin: 10,
+        padding: 2,
+        flexGrow: 1,
+        alignContent: true
+    },
+});
 
 
-export default PatientPdf*/
+// Create Document Component
+export const OrdonnancePdf = ({ordonance}) => (
+    // <Document>
+    //     <Page size="A4" style={styles.page}>
+    //         <View style={{ color: 'tomato', textAlign: 'center', margin: 30 }}>
+    //             <Text>Ordonnance</Text>
+    //         </View>
+    //         {ordonance.traitements.map(trait=>
+    //             <>
+    //             <View style={styles.section}>
+    //                 <Typography>{trait.med}</Typography>
+    //                 <Typography>{trait.dosage}</Typography>
+    //             </View>
+    //             </>
+    //         )}
+    //
+    //     </Page>
+    // </Document>
+    <Document>
+        <Page size="A4" style={styles.page}>
+            <View style={{color: 'rgb(63, 81, 181)', textAlign: 'center', margin: 30}}>
+                <Text>Ordonnance</Text>
+            </View>
+            {ordonance.traitements.map(trait =>
+                <View style={styles.section}>
+                    <Text>Medicament :{trait.med} Dosage :{trait.dosage}</Text>
+                </View>
+            )}
+
+        </Page>
+    </Document>
+);

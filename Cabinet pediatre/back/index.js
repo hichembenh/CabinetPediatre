@@ -6,6 +6,7 @@ import cors from 'cors';
 import userRoutes from './routes/user.js';
 import kidRoutes from './routes/kid.js';
 import rdvRoute from "./routes/rdvRoute.js";
+import ordRoute from "./routes/ordonnance.js";
 
 const app = express();
 
@@ -16,7 +17,8 @@ app.use(cors());
 
 app.use('/user', userRoutes);
 app.use('/kids', kidRoutes);
-app.use('/rdv',rdvRoute)
+app.use('/rdv',rdvRoute);
+app.use('/ordonnance',ordRoute);
 
 const CONNECTION_URL = 'mongodb+srv://root:hey@cluster0.xvced.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
 const PORT = process.env.PORT|| 5000;

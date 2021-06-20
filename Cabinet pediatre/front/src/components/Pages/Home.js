@@ -1,10 +1,15 @@
-import React from "react";
+import React, {useEffect} from "react";
 import SuperNav from "../Navbar/SuperNav";
-import Navbar from "../Navbar/Navbar";
+import ReactGA from "react-ga";
+import {withRouter} from "react-router-dom";
 
 
 const Home =()=>{
 
+    ReactGA.initialize('G-CFDLFDX45S')
+    useEffect(()=>{
+        ReactGA.pageview(window.location.pathname + window.location.search);
+    })
     return(
         <>
             <SuperNav
@@ -13,4 +18,4 @@ const Home =()=>{
         </>
     )
 }
-export default Home
+export default withRouter(Home)
