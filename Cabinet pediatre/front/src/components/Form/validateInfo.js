@@ -39,6 +39,7 @@ export default function validateInfo(values) {
     if (!values.numTel) {
         errors.numTel = 'Champ obligatoire';
     } else if (values.numTel.length !== 8) {
+        errors.numTel = 'Numero de telephone doit ce composé de 8 chiffres';
     }
     return errors;
 }

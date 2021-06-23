@@ -9,6 +9,7 @@ import Calendar from "../Calendar/calendar";
 import moment from "moment";
 import AlertNotification from "../Confirm/alert";
 import {isEmpty, validateRdv} from "./validateInfo";
+import ReactGA from "react-ga";
 
 const RdvModal = ({ kid, showModal, setShowModal }) => {
     const [newRdv] = useState({
@@ -58,6 +59,10 @@ const RdvModal = ({ kid, showModal, setShowModal }) => {
                 isOpen: true,
                 message: 'Rendez-vous ajouté',
                 type: 'success'
+            })
+            ReactGA.event({
+                category:'RDV',
+                action:`Prise de rendez-vous le ${new Date(newRdv.dateDebut).toLocaleString()}}`
             })
         }
     }

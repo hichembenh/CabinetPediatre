@@ -10,10 +10,15 @@ import Profile from "./components/Pages/Profile";
 import Doctor from "./components/Pages/Doctor";
 import Navbar from "./components/Navbar/Navbar";
 import FooterPage from "./components/Footer/footer";
+import ReactGA from "react-ga";
 
 const App = () => {
     const user = JSON.parse(localStorage.getItem('profile'))
 
+    useEffect(()=>{
+        ReactGA.initialize('########')
+        ReactGA.pageview(window.location.pathname + window.location.search);
+    },[])
     return (
 <>
       <Router>

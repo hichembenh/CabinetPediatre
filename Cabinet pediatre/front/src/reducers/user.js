@@ -1,4 +1,4 @@
-import {FETCH_USER, UPDATE_USER} from "../constants/actionTypes";
+import {DELETE_USER, FETCH_USER, UPDATE_USER} from "../constants/actionTypes";
 
 
 export default (users=[], action)=>{
@@ -15,6 +15,8 @@ export default (users=[], action)=>{
                 console.log('updating reducer user fail')
                 break
             }
+        case DELETE_USER:
+            return users.filter((user) => user._id !== action.payload);
 
         default:
             return users

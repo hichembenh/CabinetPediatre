@@ -12,11 +12,10 @@ export default makeStyles((theme) => ({
     textAlign: 'center',
   },
   input:{
-    marginTop:'20px',
-    width:'500px',
+    margin:'1%',
     height:'30px',
     fontSize:'30px',
-    paddingLeft:'110px',
-    marginLeft:'700px'
+    border: '1px solid grey',
+    float: "left"
   }
 }));

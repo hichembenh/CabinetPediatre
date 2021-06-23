@@ -20,4 +20,5 @@ export const signIn = (formData) => API.post('/user/signin', formData);
 export const signUp = (formData) => API.post('/user/signup', formData);
 export const updateUser = (id, formData) => axios.patch(`/user/${id}`, formData)
 export const fetchUser = () => axios.get('/user')
+export const deleteUser=(id)=>axios.delete(`/user/${id}`)
 

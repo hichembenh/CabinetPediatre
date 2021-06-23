@@ -6,10 +6,10 @@ import {withRouter} from "react-router-dom";
 
 const Home =()=>{
 
-    ReactGA.initialize('G-CFDLFDX45S')
+    ReactGA.initialize('UA-200174338-1')
     useEffect(()=>{
         ReactGA.pageview(window.location.pathname + window.location.search);
-    })
+    },[])
     return(
         <>
             <SuperNav
@@ -18,4 +18,4 @@ const Home =()=>{
         </>
     )
 }
-export default withRouter(Home)
+export default Home

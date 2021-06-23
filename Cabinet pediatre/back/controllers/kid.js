@@ -6,8 +6,21 @@ import User from '../models/user.js'
 import Rdv from "../models/rdv.js";
 import kidVaccin from "../models/kidVaccin.js";
 import Vaccin from "../models/vaccin.js";
+import moment from "moment";
+import NodeMailer from 'nodemailer'
 
 const router = express.Router();
+//const nodeMailer = require('nodemailer')
+
+let transporter = NodeMailer.createTransport({
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true, // use SSL// true for 465, false for other ports
+    auth: {
+        user: '########' , // generated ethereal user
+        pass: '########', // generated ethereal password
+    },
+});
 
 export const getKids = async (req, res) => {
     try {
@@ -52,13 +65,13 @@ export const createKid = async (req, res) => {
         const kidsVacc = await kidVaccin.insertMany([
             {vaccin:allVaccin[0],kids:newKid},
             {vaccin:allVaccin[1],kids:newKid},
+            {vaccin:allVaccin[8],kids:newKid},
             {vaccin:allVaccin[2],kids:newKid},
             {vaccin:allVaccin[3],kids:newKid},
             {vaccin:allVaccin[4],kids:newKid},
             {vaccin:allVaccin[5],kids:newKid},
             {vaccin:allVaccin[6],kids:newKid},
             {vaccin:allVaccin[7],kids:newKid},
-            {vaccin:allVaccin[8],kids:newKid},
             {vaccin:allVaccin[9],kids:newKid},
             {vaccin:allVaccin[10],kids:newKid},
             {vaccin:allVaccin[11],kids:newKid},
@@ -79,8 +92,32 @@ export const createKid = async (req, res) => {
         user.kids.push(newKid);
         await user.save()
 
-        console.log('creacted')
+        let mailOptions = {
+            from: '########',
+            to: user.email,
+            subject: 'Les vaccins de votre nouveau enfant',
+            html:`
+                    <p>Vous venez d'enregistrer votre enfant dans notre platform </p>
+                    <h3>Les details de l'enfant:</h3>
+                    <ul>
+                        <li>Prenom ${newKid.name}</li>
+                        <li>Nom ${newKid.lastName}</li>
+                        <li>Age ${new Date(newKid.age).toLocaleString()}</li>
+                    </ul>
+                    <h3>Les vaccins de votre enfant:</h3> ${newKid.vaccins.map(vaccin => {
+                return `<ul> <li>${vaccin.vaccin.title}</li> <li>Date limite: ${moment(newKid.age).add(vaccin.vaccin.ageDedie, 'M').format("Do MMM YYYY")}</li> </ul>`
+            })}`
+        }
 
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                console.log(error + '  mail fail')
+            }
+            else {
+                console.log('mail sent')
+                alert("mail sent")
+            }        })
+        console.log('creacted')
         res.status(201).json(newKid);
     } catch (error) {
         res.status(409).json({ message: error.message });

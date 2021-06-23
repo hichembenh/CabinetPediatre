@@ -5,6 +5,7 @@ import {useDispatch} from "react-redux";
 import useStyles from './styles'
 import validateInfo, {isEmpty} from "./validateInfo";
 import AlertNotification from "../Confirm/alert";
+import ReactGA from "react-ga";
 
 const AuthForm = ({old}) => {
 
@@ -38,6 +39,10 @@ const AuthForm = ({old}) => {
                 isOpen: true,
                 message: `${user.firstName} ${user.lastName} mis a jour`,
                 type: 'success'
+            })
+            ReactGA.event({
+                category:'User',
+                action:"Modification d'un utilisateur"
             })
         }}
 

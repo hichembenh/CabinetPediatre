@@ -18,6 +18,7 @@ import {useDispatch} from "react-redux";
 import {useHistory}from "react-router-dom";
 import {signup,signin} from '../../actions/auth'
 import validateInfo, {isEmpty} from "../Form/validateInfo";
+import ReactGA from "react-ga";
 
 const initialState={firstName:'', lastName:'',numTel:'',email:'',password:'',confirmPassword:''};
 const Login= () => {
@@ -39,7 +40,13 @@ const Login= () => {
             if (isSignUp){
                 setErrors(validateInfo(form))
                 if (isEmpty(errors))
+                {
                     dispatch(signup(form,history))
+                    ReactGA.event({
+                        category:'User',
+                        action:"Ajout d'utilisateur"
+                    })
+                }
             }else{
                 dispatch(signin(form,history))
             }

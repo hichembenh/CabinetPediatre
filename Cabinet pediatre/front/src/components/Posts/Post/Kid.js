@@ -75,14 +75,14 @@ const Kid = ({kid, setCurrentId}) => {
                         <Grid
                             container
                             direction="row"
-                            justify="space-between"
+                            justify="space-around"
                             alignItems="center"
                         >
                             <Button size="small" color="primary" onClick={handleDelete}><DeleteIcon
                                 fontSize="small"/> Supprimer</Button>
                             <Button size="small" color="primary" onClick={handleOpen}><AssignmentIcon
                                 fontSize="small"/> Fiche patient</Button>
-                            <Button size="large" color="primary" onClick={showRdvModel}><AddBoxIcon
+                            <Button size="large" color="primary"  onClick={showRdvModel}><AddBoxIcon
                                 fontSize="small"/> Demander un rendez-vous</Button>
                         </Grid>
                     </CardActions>

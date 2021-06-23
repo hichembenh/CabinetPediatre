@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {CircularProgress, Container, Grid, Paper} from '@material-ui/core';
+import {CircularProgress, Container, Grid, Paper, TextField} from '@material-ui/core';
 import { useSelector } from 'react-redux';
 
 import Kid from './Post/Kid';
@@ -18,18 +18,24 @@ const Kids = ({ setCurrentId }) => {
         !kids.length ? <CircularProgress /> : (
             <>
                 <Container>
-                    <div>
-                        <label htmlFor="search" className={classes.input}>
-                            <input
-                                type="text"
-                                placeholder="Chercher par nom"
-                                onChange={(event)=>{
-                                    setSearch(event.target.value)
-                                }}
-                            />
+                    {/*<div>*/}
+                    {/*    <label htmlFor="search" className={classes.input}>*/}
+                    {/*        <input*/}
+                    {/*            type="text"*/}
+                    {/*            placeholder="Chercher par nom"*/}
+                    {/*            onChange={(event)=>{*/}
+                    {/*                setSearch(event.target.value)*/}
+                    {/*            }}*/}
+                    {/*        />*/}
 
-                        </label>
-                    </div>
+                    {/*    </label>*/}
+                    {/*</div>*/}
+                    <TextField
+                        id="standard-basic"
+                        label="Chercher par nom"
+                        onChange={(event)=>{
+                                         setSearch(event.target.value)}}
+                    />
                     <Grid className={classes.container} elevation={0} spacing={1}
                           container
                           direction="row"

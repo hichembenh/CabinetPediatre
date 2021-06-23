@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 
 import User from "../models/user.js";
 import mongoose from "mongoose";
+import Kid from "../models/kid.js";
 
 const secret = 'test';
 const app = express();
@@ -84,5 +85,19 @@ export const fetchUser = async (req,res)=>{
     }catch (e) {
         console.log(e.message)
         console.log('fetching users fail')
+    }
+}
+
+export const deleteUser = async (req,res)=>{
+    const {id}=req.params
+    console.log(req.params)
+    try {
+        await Kid.deleteMany({parent:id})
+        const user = await User.findByIdAndDelete(id)
+        res.json({ message: "User deleted successfully." });
+        console.log('user deleted')
+    }catch (e){
+        console.log(e.message)
+        console.log('deleting user failed')
     }
 }

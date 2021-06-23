@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import ReactGA from 'react-ga'
 import {TextField, Button, Typography, InputLabel, Grid} from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import FileBase from 'react-file-base64';
@@ -47,7 +48,7 @@ const FormKid = ({ currentId, setCurrentId }) => {
         });
     };
 
-    const handleChangeSexe = (event) => {
+    const handleChangeSexe = async (event) => {
         kidData.gender=event.target.value
     };
 
@@ -63,6 +64,10 @@ const FormKid = ({ currentId, setCurrentId }) => {
                     message: 'Enfant créé',
                     type: 'success'
                 })
+                ReactGA.event({
+                    category:'Enfant',
+                    action:"Ajout d'enfant"
+                })
                 clear();
             }
         } else {
@@ -72,6 +77,10 @@ const FormKid = ({ currentId, setCurrentId }) => {
                     isOpen: true,
                     message: `${kidData.lastName} modifié`,
                     type: 'success'
+                })
+                ReactGA.event({
+                    category:'Enfant',
+                    action:"Modification d'enfant"
                 })
                 clear();
             }
@@ -103,7 +112,7 @@ const FormKid = ({ currentId, setCurrentId }) => {
                     fullWidth
                     value={kidData.lastName}
                     onChange={(e) => setKidData({ ...kidData, lastName: e.target.value })} />
-            {errors.lastName && <p style={{ color: 'red' }}>{errors.lastName}</p>}
+            {errors.lastName && <div style={{ color: 'red' }}>{errors.lastName}</div>}
 
             <TextField
                     name="name"
@@ -112,7 +121,7 @@ const FormKid = ({ currentId, setCurrentId }) => {
                     fullWidth
                     value={kidData.name}
                     onChange={(e) => setKidData({ ...kidData, name: e.target.value })} />
-            {errors.name && <p style={{ color: 'red' }}>{errors.name}</p>}
+            {errors.name && <div style={{ color: 'red' }}>{errors.name}</div>}
 
             <Grid
                 container

@@ -11,10 +11,11 @@ import AlertNotification from "../Confirm/alert";
 import {Button, Modal} from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import HowToRegIcon from '@material-ui/icons/HowToReg';
-import {getUsers, updateUser} from "../../actions/user";
+import {deleteUser, getUsers, updateUser} from "../../actions/user";
 import {getKids} from "../../actions/kids";
 import AuthForm from "../Form/authForm";
 import {getModalStyle} from "../Fiche/styles";
+import ReactGA from "react-ga";
 
 export default function CustomizedTables() {
     const [search,setSearch] = useState('')
@@ -38,31 +39,31 @@ export default function CustomizedTables() {
         setOpen(!open);
     };
 
-/*    function handleDelete (rdv){
-        if (window.confirm('Vous voulez vraiment supprimer ?')) {
-            dispatch(deleteUser(rdv))
+    // function handleDelete (rdv){
+    //     if (window.confirm('Vous voulez vraiment supprimer ?')) {
+    //         dispatch(deleteUser(rdv))
+    //         setNotify({
+    //             isOpen: true,
+    //             message: 'rendez-vous supprimé',
+    //             type: 'success'
+    //         })
+    //     }
+    // }
+
+    function handleDelete(userId){
+        if(window.confirm('Voulez vous vraiment supprimer cet utilisateur ?')){
+            dispatch(deleteUser(userId))
+            console.log(userId)
             setNotify({
                 isOpen: true,
-                message: 'rendez-vous supprimé',
+                message: 'Utilisateur supprimé',
                 type: 'success'
             })
+            ReactGA.event({
+                category:'User',
+                action:"Suppression d'utilisateur"
+            })
         }
-    }*/
-
-    function kidsNumber(user){
-        var count = 0
-        for (var kid in user.kids) count++
-        return count
-    }
-
-    const userUp = () =>{
-
-    }
-
-
-
-    function handleDelete(){
-        if(window.confirm('Voulez vous vraiment supprimer cet utilisateur ?')){return null}
     }
 
     return (
@@ -105,10 +106,10 @@ export default function CustomizedTables() {
                                 <StyledTableRow key={user._id}>
                                     <StyledTableCell align="left"><div>{user.firstName}</div></StyledTableCell>
                                     <StyledTableCell align="left"><div>{user.lastName}</div></StyledTableCell>
-                                    <StyledTableCell align="left"><div>{kidsNumber(user)}</div></StyledTableCell>
+                                    <StyledTableCell align="left"><div>{user.kids.length}</div></StyledTableCell>
                                     <StyledTableCell align="left"><div>{user.isSec? 'Secretaire': user.isAdmin ? 'Admin':'Parent'}</div></StyledTableCell>
                                     <StyledTableCell>
-                                        <Button size="small" color="secondary" onClick={()=>handleDelete()} ><DeleteIcon fontSize="small" /></Button>
+                                        <Button size="small" color="secondary" onClick={()=>handleDelete(user._id)} ><DeleteIcon fontSize="small" /></Button>
                                     </StyledTableCell>
                                     <StyledTableCell>
                                         <Button size="small" color="primary" onClick={handleOpen}><HowToRegIcon fontSize="small"/></Button>

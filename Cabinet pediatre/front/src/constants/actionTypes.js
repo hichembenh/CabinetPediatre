@@ -15,5 +15,6 @@ export const DELETE_RDV = 'DELETE_RDV';
 export const FETCH_ORD = 'FETCH_ORD';
 export const CREATE_ORD = 'CREATE_ORD';
 
-export const UPDATE_USER = 'UPDATE_USER'
-export const FETCH_USER = 'FETCH_USER'
+export const UPDATE_USER = 'UPDATE_USER';
+export const FETCH_USER = 'FETCH_USER';
+export const DELETE_USER = 'DELETE_USER'
