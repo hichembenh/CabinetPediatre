@@ -152,231 +152,231 @@ export default function ImgMediaCard({kid}) {
                                 >
                                     Enregistrer
                                 </Button>
-                                )}
+                            )}
                         </form>
-                                <Typography variant="h6" color="textPrimary" component="p">
-                                Les rendez-vous:{kid.rdvs.map((rdv) => (
-                                <Typography variant='h6'
-                                color="textSecondary">{new Date(rdv.dateDebut).toLocaleString()}</Typography>
-                                ))}
-                                </Typography>
-                                <Typography variant='h6' color="textPrimary" component="p">
-                                Les ordonnances:
-                                </Typography>
-                                <Typography>
+                        <Typography variant="h6" color="textPrimary" component="p">
+                            Les rendez-vous:{kid.rdvs.map((rdv) => (
+                            <Typography variant='h6'
+                                        color="textSecondary">{new Date(rdv.dateDebut).toLocaleString()}</Typography>
+                        ))}
+                        </Typography>
+                        <Typography variant='h6' color="textPrimary" component="p">
+                            Les ordonnances:
+                        </Typography>
+                        <Typography>
                             {myOrds.map(ord =>
                                 <>
-                                <Grid
-                                container
-                                direction="row"
-                                justify="space-around"
-                                alignItems="center"
-                                >
-                                <Typography align={'center'}>Ordonnance crée
-                                le {new Date(ord.createdAt).toLocaleDateString()}</Typography>
-                                <Button color="primary" onClick={() => {
+                                    <Grid
+                                        container
+                                        direction="row"
+                                        justify="space-around"
+                                        alignItems="center"
+                                    >
+                                        <Typography align={'center'}>Ordonnance crée
+                                            le {new Date(ord.createdAt).toLocaleDateString()}</Typography>
+                                        <Button color="primary" onClick={() => {
 
-                                setActiveOrdonance(ord)
-                                setOpenPDF(true)
-                            }}>Imprimer</Button>
-                                <Button color="secondary" onClick={() => {
-                                console.log(ord)
-                                handleDeleteOrd(ord._id)
-                            }}>Supprimer</Button>
-                                </Grid>
+                                            setActiveOrdonance(ord)
+                                            setOpenPDF(true)
+                                        }}>Imprimer</Button>
+                                        <Button color="secondary" onClick={() => {
+                                            console.log(ord)
+                                            handleDeleteOrd(ord._id)
+                                        }}>Supprimer</Button>
+                                    </Grid>
 
-                                <Table>
-                                <TableHead>
-                                <StyledTableCell>Date du traitement</StyledTableCell>
-                                <StyledTableCell>Medicament</StyledTableCell>
-                                <StyledTableCell>Dosage</StyledTableCell>
-                                </TableHead>
-                                <TableBody>
-                            {
-                                ord.traitements.map(trait => {
-                                return <>
-                                <StyledTableRow trait={trait.id}>
-                                <StyledTableCell>{new Date(trait.createdAt).toLocaleString()}</StyledTableCell>
-                                <StyledTableCell>{trait.med}</StyledTableCell>
-                                <StyledTableCell>{trait.dosage}</StyledTableCell>
-                                </StyledTableRow>
-                                </>
-                            })
+                                    <Table>
+                                        <TableHead>
+                                            <StyledTableCell>Date du traitement</StyledTableCell>
+                                            <StyledTableCell>Medicament</StyledTableCell>
+                                            <StyledTableCell>Dosage</StyledTableCell>
+                                        </TableHead>
+                                        <TableBody>
+                                            {
+                                                ord.traitements.map(trait => {
+                                                    return <>
+                                                        <StyledTableRow trait={trait.id}>
+                                                            <StyledTableCell>{new Date(trait.createdAt).toLocaleString()}</StyledTableCell>
+                                                            <StyledTableCell>{trait.med}</StyledTableCell>
+                                                            <StyledTableCell>{trait.dosage}</StyledTableCell>
+                                                        </StyledTableRow>
+                                                    </>
+                                                })
 
-                            }
-                                </TableBody>
-                                </Table>
+                                            }
+                                        </TableBody>
+                                    </Table>
                                 </>)
                             }
-                                </Typography>
-                                </CardContent>
-                                </CardActionArea>
-                                <CardActions>
-                            {user.result.isAdmin &&
-                                <Grid
-                                container
-                                direction="row"
-                                justify="space-around"
-                                alignItems="center"
-                                >
-                                <Button size="small" color="primary" onClick={handleChangeModifier}>
-                                Modifier
-                                </Button>
-                                <Button size="small" color="primary" onClick={() => {
-                                setActiveOrdonance({traitements: []})
-                            }}>
-                                Ajouter ordonnance
-                                </Button>
-                                </Grid>
-                            }
-                                </CardActions>
-                                </Card>
-                            {
-                                activeOrdonance &&
-                                <Modal
-                                open={activeOrdonance}
-                                onClose={() => {
-                                setActiveOrdonance(undefined)
-                                setOpenPDF(false)
-                            }}
-                                >
-                            {
-                                openPDF ?
-                                <div style={{overflowY: 'scroll'}}>
+                        </Typography>
+                    </CardContent>
+                </CardActionArea>
+                <CardActions>
+                    {user.result.isAdmin &&
+                    <Grid
+                        container
+                        direction="row"
+                        justify="space-around"
+                        alignItems="center"
+                    >
+                        <Button size="small" color="primary" onClick={handleChangeModifier}>
+                            Modifier
+                        </Button>
+                        <Button size="small" color="primary" onClick={() => {
+                            setActiveOrdonance({traitements: []})
+                        }}>
+                            Ajouter ordonnance
+                        </Button>
+                    </Grid>
+                    }
+                </CardActions>
+            </Card>
+            {
+                activeOrdonance &&
+                <Modal
+                    open={activeOrdonance}
+                    onClose={() => {
+                        setActiveOrdonance(undefined)
+                        setOpenPDF(false)
+                    }}
+                >
+                    {
+                        openPDF ?
+                            <div style={{overflowY: 'scroll'}}>
                                 <Button
-                                onClick={() => {
-                                setActiveOrdonance(undefined)
-                                setOpenPDF(!openPDF)
-                            }}>
+                                    onClick={() => {
+                                        setActiveOrdonance(undefined)
+                                        setOpenPDF(!openPDF)
+                                    }}>
 
                                 </Button>
                                 <PDFViewer style={{marginLeft: 400, width: 800, height: 1400}}>
-                                <OrdonnancePdf
-                                ordonance={activeOrdonance}
-                                />
+                                    <OrdonnancePdf
+                                        ordonance={activeOrdonance}
+                                    />
                                 </PDFViewer>
-                                </div>
-                                : <OrdonnanceForm ordonance={activeOrdonance} kid={kid}/>
-                            }
-                                </Modal>
-                            }
-                                <AlertNotification
-                                notify={notify}
-                                setNotify={setNotify}
-                                />
-                                </div>
-                                );
-                                }
+                            </div>
+                            : <OrdonnanceForm ordonance={activeOrdonance} kid={kid}/>
+                    }
+                </Modal>
+            }
+            <AlertNotification
+                notify={notify}
+                setNotify={setNotify}
+            />
+        </div>
+    );
+}
 
-                                const OrdonnanceForm = ({ordonnance, kid}) => {
-                                const [formTraitements, setFormTraitements] = useState([{
-                                id: 0,
-                                med: '',
-                                dosage: '',
-                            }])
-                                console.log(kid)
-                                const [notify, setNotify] = useState({
-                                isOpen: false,
-                                message: '',
-                                type: ''
-                            })
-                                const dispatch = useDispatch()
-                                const handleSubmit = () => {
-                                dispatch(createOrd({
-                                kid: kid,
-                                traitements: formTraitements
-                            }))
-                                setNotify({
-                                isOpen: true,
-                                message: 'Ordonnance crée',
-                                type: 'success'
-                            })
+const OrdonnanceForm = ({ordonnance, kid}) => {
+    const [formTraitements, setFormTraitements] = useState([{
+        id: 0,
+        med: '',
+        dosage: '',
+    }])
+    console.log(kid)
+    const [notify, setNotify] = useState({
+        isOpen: false,
+        message: '',
+        type: ''
+    })
+    const dispatch = useDispatch()
+    const handleSubmit = () => {
+        dispatch(createOrd({
+            kid: kid,
+            traitements: formTraitements
+        }))
+        setNotify({
+            isOpen: true,
+            message: 'Ordonnance crée',
+            type: 'success'
+        })
 
-                            }
-
-
-                                console.log(formTraitements)
+    }
 
 
-                                return <div style={{backgroundColor: "#fff", margin: 100, padding: 20}}>
+    console.log(formTraitements)
 
-                                <Typography align={'center'}>Ajout d'ordonnance</Typography>
-                            {formTraitements?.map(trait => {
-                                return <>
-                                <Grid  container
-                                direction="row"
-                                justify="space-around"
-                                alignItems="center">
-                                <Grid item>
-                                <TextField
-                                defaultValue={trait.med}
-                                variant="outlined"
-                                label='Medicament'
-                                value={trait.med || ''}
-                                onChange={v => {
+
+    return <div style={{backgroundColor: "#fff", margin: 100, padding: 20}}>
+
+        <Typography align={'center'}>Ajout d'ordonnance</Typography>
+        {formTraitements?.map(trait => {
+            return <>
+                <Grid container
+                      direction="row"
+                      justify="space-around"
+                      alignItems="center">
+                    <Grid item>
+                        <TextField
+                            defaultValue={trait.med}
+                            variant="outlined"
+                            label='Medicament'
+                            value={trait.med || ''}
+                            onChange={v => {
                                 const newFormTraitements = formTraitements.map(t => {
-                                if (t.id === trait.id) {
-                                return {
-                                ...t, med: v.target.value
-                            }
-                            }
-                                return t
-                            }
+                                        if (t.id === trait.id) {
+                                            return {
+                                                ...t, med: v.target.value
+                                            }
+                                        }
+                                        return t
+                                    }
                                 )
                                 setFormTraitements(newFormTraitements)
 
                             }}
-                                /></Grid>
-                                <Grid item>
-                                <TextField
-                                variant="outlined"
-                                label='dosage'
-                                onChange={v => {
+                        /></Grid>
+                    <Grid item>
+                        <TextField
+                            variant="outlined"
+                            label='dosage'
+                            onChange={v => {
                                 const newFormTraitements = formTraitements.map(t => {
-                                if (t.id === trait.id) {
-                                return {
-                                ...t, dosage: v.target.value
-                            }
-                            }
-                                return t
-                            }
+                                        if (t.id === trait.id) {
+                                            return {
+                                                ...t, dosage: v.target.value
+                                            }
+                                        }
+                                        return t
+                                    }
                                 )
                                 setFormTraitements(newFormTraitements)
                             }}
-                                value={trait.dosage || ''}
-                                />
-                                </Grid>
-                                </Grid>
+                            value={trait.dosage || ''}
+                        />
+                    </Grid>
+                </Grid>
 
-                                </>
-                            })}
-                                <Grid
-                                container
-                                direction="row"
-                                justify="space-around"
-                                alignItems="center"
-                                style={{margin:10}}
-                                >
-                                <Button
-                                color="inherit"
-                                variant="contained"
-                                onClick={() => {
-                                setFormTraitements([...formTraitements, {med: "", dosage: "", id: formTraitements.length}])
-                            }}>
-                                Ajouter un medicament
-                                </Button>
-                                <Button
-                                type="submit"
-                                variant="contained"
-                                color="primary"
-                                onClick={handleSubmit}
-                                >
-                                Enregistrer
-                                </Button>
-                                </Grid>
-                                <AlertNotification
-                                notify={notify}
-                                setNotify={setNotify}
-                                />
-                                </div>
-                            }
+            </>
+        })}
+        <Grid
+            container
+            direction="row"
+            justify="space-around"
+            alignItems="center"
+            style={{margin: 10}}
+        >
+            <Button
+                color="inherit"
+                variant="contained"
+                onClick={() => {
+                    setFormTraitements([...formTraitements, {med: "", dosage: "", id: formTraitements.length}])
+                }}>
+                Ajouter un medicament
+            </Button>
+            <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                onClick={handleSubmit}
+            >
+                Enregistrer
+            </Button>
+        </Grid>
+        <AlertNotification
+            notify={notify}
+            setNotify={setNotify}
+        />
+    </div>
+}

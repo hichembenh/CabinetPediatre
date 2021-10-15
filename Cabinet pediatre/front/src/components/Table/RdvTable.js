@@ -67,7 +67,7 @@ export default function CustomizedTables() {
                                     <StyledTableCell align="left">Nom enfant</StyledTableCell>
                                     <StyledTableCell align="left">Prenom enfant</StyledTableCell>
                                     <StyledTableCell align="left">Prenom parent</StyledTableCell>
-                                    <StyledTableCell align="left">Motif</StyledTableCell>
+                                    <StyledTableCell align="left"><Mo></Mo>tif</StyledTableCell>
                                     <StyledTableCell align="left">Supprimer</StyledTableCell>
                                 </TableRow>
                             </TableHead>

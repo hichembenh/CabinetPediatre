@@ -12,7 +12,6 @@ const Kids = ({ setCurrentId }) => {
     const classes = useStyles();
     const myKids = kids.filter(kid =>(kid.parent === localStorage.getItem('userId')))
 
-
     console.log(kids)
     return (
         !kids.length ? <CircularProgress /> : (

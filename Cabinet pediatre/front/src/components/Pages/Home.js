@@ -6,10 +6,6 @@ import {withRouter} from "react-router-dom";
 
 const Home =()=>{
 
-    ReactGA.initialize('UA-200174338-1')
-    useEffect(()=>{
-        ReactGA.pageview(window.location.pathname + window.location.search);
-    },[])
     return(
         <>
             <SuperNav

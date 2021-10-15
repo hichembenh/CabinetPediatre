@@ -23,7 +23,6 @@ export default function CustomizedTables() {
     const users = useSelector((state) => state.user)
     const dispatch = useDispatch()
     const [open, setOpen] = useState(false);
-    const user= JSON.parse(localStorage.getItem('profile'))
     const [modalStyle] = useState(getModalStyle())
     const [notify, setNotify] = useState({
         isOpen:false,

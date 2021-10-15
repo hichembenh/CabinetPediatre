@@ -11,7 +11,6 @@ import {createKid, updateKid} from "../../actions/kids";
 import AlertNotification from "../Confirm/alert";
 import {validateKid,isEmpty} from "./validateInfo";
 
-
 const FormKid = ({ currentId, setCurrentId }) => {
 
     const kid = useSelector((state) => (currentId ? state.kids.find((message) => message._id === currentId) : null));

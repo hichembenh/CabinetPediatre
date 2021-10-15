@@ -6,8 +6,7 @@ export default makeStyles((theme) => ({
     },
     image: {
         backgroundImage: 'url(https://pbs.twimg.com/profile_images/1175818499245203456/Ix6vgxuC.jpg)',
-        backgroundColor:
-            theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
+        backgroundColor: theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
         backgroundSize: 'cover',
         backgroundPosition: 'center',
     },

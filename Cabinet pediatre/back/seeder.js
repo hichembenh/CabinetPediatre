@@ -3,7 +3,6 @@ import connectDB from "./connectDB.js";
 
 import users from './data/users.js'
 import kids from './data/kids.js'
-import rdvs from './data/rdv.js'
 import vaccin from "./data/vaccin.js";
 import Kid from "./models/kid.js";
 import User from "./models/user.js";

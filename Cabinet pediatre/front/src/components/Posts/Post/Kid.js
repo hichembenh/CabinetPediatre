@@ -67,8 +67,8 @@ const Kid = ({kid, setCurrentId}) => {
                                 }}><MoreHorizIcon fontSize="default"/></Button>
                             </div>
                             <Typography className={classes.age} gutterBottom variant="h5"
-                                        component="h2">{kid.title}</Typography>
-
+                                        component="h2">{kid.title}
+                            </Typography>
                         </Card>
                     )}
                     <CardActions className={classes.cardActions}>
@@ -82,7 +82,7 @@ const Kid = ({kid, setCurrentId}) => {
                                 fontSize="small"/> Supprimer</Button>
                             <Button size="small" color="primary" onClick={handleOpen}><AssignmentIcon
                                 fontSize="small"/> Fiche patient</Button>
-                            <Button size="large" color="primary"  onClick={showRdvModel}><AddBoxIcon
+                            <Button size="large" color="primary" onClick={showRdvModel}><AddBoxIcon
                                 fontSize="small"/> Demander un rendez-vous</Button>
                         </Grid>
                     </CardActions>

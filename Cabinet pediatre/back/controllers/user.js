@@ -9,7 +9,6 @@ import Kid from "../models/kid.js";
 const secret = 'test';
 const app = express();
 
-
 export const signin = async (req, res) => {
     const { email, password } = req.body;
 
