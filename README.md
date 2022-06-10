@@ -1,7 +1,8 @@
 # CabinetPediatre
-application fullstack MERN pour une cabinet de pédiatre <br/>
+web application developed with MERN stack for doctor's office <br/>
 Front-End - React + Redux<br/>
-Back-End - Node.js, Express.js & MongoDB
+Back-End - Node.js, Express.js
+Database - MongoDB
 
 
 ### Steps to run in development mode:-
